@@ -1,21 +1,35 @@
 using System;
 using TMPro;
 using UnityEngine;
-
+[RequireComponent(typeof(SpriteRenderer))]
+[RequireComponent(typeof(Animator))]
 public class PlayerAnimator : MonoBehaviour
 {
     [SerializeField] private Animator _animator;
     [SerializeField] private SpriteRenderer _spriteRenderer;
-    public void HandleAnimations(String state, float xDirection)
+    private void OnEnable()
     {
-        switch (state)
+        Events.onPlayerStateChanged.Add(HandleEvent);
+    }
+    private void OnDisable()
+    {
+        Events.onPlayerStateChanged.Remove(HandleEvent);
+    }
+
+    public void HandleEvent(PlayerState playerState)
+    {
+        switch (playerState)
         {
-            case "Running":
+            case PlayerState.RunningRight:
                 _animator.SetBool("isRunning", true);
-                if (xDirection > 0) _spriteRenderer.flipX = false;
-                else if (xDirection < 0) _spriteRenderer.flipX = true;
+                _spriteRenderer.flipX = false;
+
                 break;
-            case "Idle":
+            case PlayerState.RunningLeft:
+                _animator.SetBool("isRunning", true);
+                _spriteRenderer.flipX = true;
+                break;
+            case PlayerState.Idle:
                 Debug.Log("idle");
                 _animator.SetBool("isRunning", false);
                 break;

@@ -2,6 +2,7 @@ using UnityEngine;
 
 
 [RequireComponent(typeof(Rigidbody2D))]
+
 public class Player : MonoBehaviour, IControllable
 {
     [SerializeField] private float _speed = 5f;
@@ -9,26 +10,30 @@ public class Player : MonoBehaviour, IControllable
     [SerializeField] private float _jumpForce = 3f;
     [SerializeField] private Transform _groundCheck;
     [SerializeField] LayerMask _groundLayer;
-    [SerializeField] PlayerAnimator _playerAnimator;
-    void Start()
-    {
+    private PlayerState _playerState = PlayerState.Idle;
 
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
     public void Move(Vector2 direction)
     {
 
         Vector2 velocity = direction * _speed;
         _rigidbody2D.linearVelocity = new Vector2(velocity.x, _rigidbody2D.linearVelocityY);
-        if (_rigidbody2D.linearVelocity.x != 0) _playerAnimator.HandleAnimations("Running", _rigidbody2D.linearVelocity.x);
-        else if (!IsGrounded() || _rigidbody2D.linearVelocity.y != 0) _playerAnimator.HandleAnimations("Idle", _rigidbody2D.linearVelocity.x);
-        else { _playerAnimator.HandleAnimations("Idle", _rigidbody2D.linearVelocity.x); }
-
+        HandleStates();
+    }
+    public void HandleStates()
+    {
+        if (_rigidbody2D.linearVelocity.x > 0)
+        {
+            _playerState = PlayerState.RunningRight;
+        }
+        else if (_rigidbody2D.linearVelocity.x < 0)
+        {
+            _playerState = PlayerState.RunningLeft;
+        }
+        else if (_rigidbody2D.linearVelocity.x == 0 || !IsGrounded())
+        {
+            _playerState = PlayerState.Idle;
+        }
+        Events.onPlayerStateChanged.Publish(_playerState);
     }
     public void Jump()
     {
