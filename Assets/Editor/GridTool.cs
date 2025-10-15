@@ -21,7 +21,7 @@ public class GridTool : EditorWindow
     public List<GameObject> test = new List<GameObject>();
     private bool isDragging = false;
     private float gridCellSize = 0.32f;
-    private Color gridColour = Color.green;
+    private Color gridColour = Color.red;
     private SerializedObject serializedObject;
     private GameObject testPrefab;
     [MenuItem("Tools/GridTool")]
@@ -148,17 +148,22 @@ public class GridTool : EditorWindow
         rows.Clear();
         corner1 = new Vector3(SnapTo(corner1.x, gridCellSize), SnapTo(corner1.y, gridCellSize), 0);
         corner2 = new Vector3(SnapTo(corner2.x, gridCellSize), SnapTo(corner2.y, gridCellSize), 0);
-        corner1 = new Vector3(corner1.x + 0.16f, corner1.y + 0.16f, 0);
-        corner2 = new Vector3(corner2.x + 0.16f, corner2.y + 0.16f, 0);
+
+        Vector3 centerOffset = new Vector3(gridCellSize / 2f, gridCellSize / 2f, 0);
 
         Debug.Log("generated");
         Vector3 min = Vector3.Min(corner1, corner2);
         Vector3 max = Vector3.Max(corner1, corner2);
-        for (float y = min.y; y <= max.y - gridCellSize; y += gridCellSize)
+
+        int columnCount = Mathf.RoundToInt((max.x - min.x) / gridCellSize);
+        int rowsCount = Mathf.RoundToInt((max.y - min.y) / gridCellSize);
+
+        for (int y = 0; y < rowsCount; y++)
         {
-            for (float x = min.x; x <= max.x - gridCellSize; x += gridCellSize)
+            for (int x = 0; x < columnCount; x++)
             {
-                test.Add(Instantiate(testPrefab, new Vector3(x, y, 0), Quaternion.identity));
+                Vector3 pos = new Vector3(min.x + x * gridCellSize, min.y + y * gridCellSize, 0) + centerOffset;
+                test.Add(Instantiate(testPrefab, pos, Quaternion.identity));
             }
         }
 
