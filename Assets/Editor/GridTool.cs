@@ -6,20 +6,17 @@ using Unity.VisualScripting;
 using NUnit.Framework.Internal;
 using UnityEngine.U2D;
 using PlasticPipe.PlasticProtocol.Messages;
-[System.Serializable]
-public class GridRow
-{
-    public GameObject prefab;
-    [HideInInspector]
-    public List<Vector3> cellCentersList = new();
-}
+using UnityEngine.UIElements;
+
+
 public class GridTool : EditorWindow
 {
 
     private Vector3 startPos;
     private Vector3 endPos;
-    public List<GridRow> rows = new List<GridRow>();
+
     public List<GameObject> test = new List<GameObject>();
+    private List<List<Vector3>> positionList = new List<List<Vector3>>();
     private bool isDragging = false;
     private float gridCellSize = 0.32f;
     private Color gridColour = Color.red;
@@ -61,12 +58,24 @@ public class GridTool : EditorWindow
 
         if (GUILayout.Button("Undo"))
         {
-            foreach (GameObject gameObject in test)
+            if (test.Count > 0)
             {
-                startPos = Vector3.zero;
-                endPos = Vector3.zero;
-                DestroyImmediate(gameObject);
+                foreach (GameObject gameObject in test)
+                {
+
+                    DestroyImmediate(gameObject);
+                }
             }
+            startPos = Vector3.zero;
+            endPos = Vector3.zero;
+            test.Clear();
+            positionList.Clear();
+        }
+        if (GUILayout.Button("Generate"))
+        {
+            GenerateGrid(positionList);
+            startPos = Vector3.zero;
+            endPos = Vector3.zero;
         }
     }
 
@@ -76,6 +85,8 @@ public class GridTool : EditorWindow
 
         if (e.type == EventType.MouseDown && e.button == 0)
         {
+            positionList.Clear();
+            test.Clear();
             Debug.Log("Mouse Down");
             startPos = HandleUtility.GUIPointToWorldRay(e.mousePosition).origin;
             startPos.z = 0;
@@ -94,7 +105,7 @@ public class GridTool : EditorWindow
         {
             Debug.Log("Mouse Up");
             isDragging = false;
-            GenerateGrid(startPos, endPos);
+            GeneratePositions(startPos, endPos, positionList);
             e.Use();
 
         }
@@ -135,9 +146,9 @@ public class GridTool : EditorWindow
 
         Handles.DrawPolyLine(pointsList);
     }
-    private void GenerateGrid(Vector3 corner1, Vector3 corner2)
+    private void GeneratePositions(Vector3 corner1, Vector3 corner2, List<List<Vector3>> posList)
     {
-        rows.Clear();
+        posList.Clear();
         corner1 = new Vector3(SnapTo(corner1.x, gridCellSize), SnapTo(corner1.y, gridCellSize), 0);
         corner2 = new Vector3(SnapTo(corner2.x, gridCellSize), SnapTo(corner2.y, gridCellSize), 0);
 
@@ -149,29 +160,39 @@ public class GridTool : EditorWindow
 
         int columnCount = Mathf.RoundToInt((max.x - min.x) / gridCellSize);
         int rowsCount = Mathf.RoundToInt((max.y - min.y) / gridCellSize);
-        int i = 1;
+
         for (int y = 0; y < rowsCount; y++)
         {
+            List<Vector3> columnPosList = new List<Vector3>();
 
-            GameObject rowParent = new GameObject("RowParent" + i);
-            rowParent.transform.position = new Vector3(min.x + gridCellSize, max.y - (y + 1) * gridCellSize, 0);
-            test.Add(rowParent);
-            i++;
             for (int x = 0; x < columnCount; x++)
             {
                 Vector3 pos = new Vector3(min.x + x * gridCellSize, max.y - (y + 1) * gridCellSize, 0) + centerOffset;
+                columnPosList.Add(pos);
+
+            }
+            posList.Add(columnPosList);
+        }
+    }
+    private void GenerateGrid(List<List<Vector3>> posList)
+    {
+
+        test.Clear();
+        GameObject gridParent = new GameObject("GridParent");
+        int i = 1;
+        foreach (List<Vector3> row in posList)
+        {
+            GameObject rowParent = new GameObject("RowParent" + i);
+            rowParent.transform.position = row[0];
+            test.Add(rowParent);
+            i++;
+            foreach (Vector3 pos in row)
+            {
                 GameObject block = Instantiate(testPrefab, pos, Quaternion.identity);
                 block.transform.SetParent(rowParent.transform, true);
 
             }
-        }
-
-        foreach (GridRow row in rows)
-        {
-            foreach (Vector3 cell in row.cellCentersList)
-            {
-                Debug.Log(cell);
-            }
+            rowParent.transform.SetParent(gridParent.transform, true);
         }
     }
 
