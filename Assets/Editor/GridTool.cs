@@ -5,6 +5,7 @@ using UnityEditor.SearchService;
 using Unity.VisualScripting;
 using NUnit.Framework.Internal;
 using UnityEngine.U2D;
+using PlasticPipe.PlasticProtocol.Messages;
 [System.Serializable]
 public class GridRow
 {
@@ -22,7 +23,6 @@ public class GridTool : EditorWindow
     private bool isDragging = false;
     private float gridCellSize = 0.32f;
     private Color gridColour = Color.red;
-    private SerializedObject serializedObject;
     private GameObject testPrefab;
     [MenuItem("Tools/GridTool")]
 
@@ -34,7 +34,7 @@ public class GridTool : EditorWindow
     }
     private void OnEnable()
     {
-        serializedObject = new SerializedObject(this);
+
         SceneView.duringSceneGui += OnSceneGUI;
 
 
@@ -51,31 +51,23 @@ public class GridTool : EditorWindow
     {
         gridCellSize = EditorGUILayout.Slider("Grid Size", gridCellSize, 0.16f, 5f);
         gridColour = EditorGUILayout.ColorField("GridColour", gridColour);
+        GUILayout.Label("Keep prefab empty to have layer-by-layer filling");
         testPrefab = (GameObject)EditorGUILayout.ObjectField(
-            "GameObject:",         // label
+            "MonoFill prefab:",         // label
             testPrefab,        // current value
             typeof(GameObject),    // type allowed
             true                   // allow scene objects
         );
-        EditorGUILayout.PropertyField(serializedObject.FindProperty("rows"), true);
-        if (GUILayout.Button("Click Me"))
-        {
 
-            rows.Clear();
-        }
-        if (GUILayout.Button("1"))
-        {
-            GenerateGrid(new Vector3(0, 0, 0), new Vector3(1, 2, 0));
-            DrawGrid(new Vector3(0, 0, 0), new Vector3(1, 2, 0));
-        }
-        if (GUILayout.Button("DELETE"))
+        if (GUILayout.Button("Undo"))
         {
             foreach (GameObject gameObject in test)
             {
+                startPos = Vector3.zero;
+                endPos = Vector3.zero;
                 DestroyImmediate(gameObject);
             }
         }
-        serializedObject.ApplyModifiedProperties();
     }
 
     private void OnSceneGUI(SceneView sceneView)
@@ -157,13 +149,20 @@ public class GridTool : EditorWindow
 
         int columnCount = Mathf.RoundToInt((max.x - min.x) / gridCellSize);
         int rowsCount = Mathf.RoundToInt((max.y - min.y) / gridCellSize);
-
+        int i = 1;
         for (int y = 0; y < rowsCount; y++)
         {
+
+            GameObject rowParent = new GameObject("RowParent" + i);
+            rowParent.transform.position = new Vector3(min.x + gridCellSize, max.y - (y + 1) * gridCellSize, 0);
+            test.Add(rowParent);
+            i++;
             for (int x = 0; x < columnCount; x++)
             {
-                Vector3 pos = new Vector3(min.x + x * gridCellSize, min.y + y * gridCellSize, 0) + centerOffset;
-                test.Add(Instantiate(testPrefab, pos, Quaternion.identity));
+                Vector3 pos = new Vector3(min.x + x * gridCellSize, max.y - (y + 1) * gridCellSize, 0) + centerOffset;
+                GameObject block = Instantiate(testPrefab, pos, Quaternion.identity);
+                block.transform.SetParent(rowParent.transform, true);
+
             }
         }
 
