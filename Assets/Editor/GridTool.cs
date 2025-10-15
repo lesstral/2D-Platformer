@@ -9,17 +9,20 @@ using PlasticPipe.PlasticProtocol.Messages;
 using UnityEngine.UIElements;
 
 
+
 public class GridTool : EditorWindow
 {
 
     private Vector3 startPos;
     private Vector3 endPos;
 
-    public List<GameObject> test = new List<GameObject>();
+    public List<GameObject> lastCreatedGrid = new List<GameObject>();
     private List<List<Vector3>> positionList = new List<List<Vector3>>();
+    [SerializeField] private List<GameObject> rowPrefabs = new List<GameObject>();
     private bool isDragging = false;
     private float gridCellSize = 0.32f;
     private Color gridColour = Color.red;
+    private GameObject lastGridParent;
     private GameObject testPrefab;
     [MenuItem("Tools/GridTool")]
 
@@ -58,25 +61,32 @@ public class GridTool : EditorWindow
 
         if (GUILayout.Button("Undo"))
         {
-            if (test.Count > 0)
-            {
-                foreach (GameObject gameObject in test)
-                {
-
-                    DestroyImmediate(gameObject);
-                }
-            }
+            DestroyImmediate(lastGridParent);
             startPos = Vector3.zero;
             endPos = Vector3.zero;
-            test.Clear();
+            lastCreatedGrid.Clear();
             positionList.Clear();
         }
         if (GUILayout.Button("Generate"))
         {
-            GenerateGrid(positionList);
-            startPos = Vector3.zero;
-            endPos = Vector3.zero;
+            if (startPos != Vector3.zero && endPos != Vector3.zero)
+            {
+                GenerateGrid(positionList);
+                startPos = Vector3.zero;
+                endPos = Vector3.zero;
+            }
         }
+        GUILayout.Label("Prefabs by row:", EditorStyles.boldLabel);
+        for (int i = 0; i < positionList.Count; i++)
+        {
+            rowPrefabs[i] = (GameObject)EditorGUILayout.ObjectField(
+                new GUIContent("Row " + (i + 1) + " Prefab"),
+                rowPrefabs[i],
+                typeof(GameObject),
+                false
+            );
+        }
+
     }
 
     private void OnSceneGUI(SceneView sceneView)
@@ -86,7 +96,7 @@ public class GridTool : EditorWindow
         if (e.type == EventType.MouseDown && e.button == 0)
         {
             positionList.Clear();
-            test.Clear();
+            lastCreatedGrid.Clear();
             Debug.Log("Mouse Down");
             startPos = HandleUtility.GUIPointToWorldRay(e.mousePosition).origin;
             startPos.z = 0;
@@ -106,15 +116,21 @@ public class GridTool : EditorWindow
             Debug.Log("Mouse Up");
             isDragging = false;
             GeneratePositions(startPos, endPos, positionList);
+            if (testPrefab == null)
+            {
+                GeneratePrefabList();
+            }
             e.Use();
-
         }
+
         if (startPos != Vector3.zero && endPos != Vector3.zero)
         {
             DrawGrid(startPos, endPos);
 
             SceneView.RepaintAll();
         }
+
+
 
     }
     private void DrawGrid(Vector3 corner1, Vector3 corner2)
@@ -177,18 +193,28 @@ public class GridTool : EditorWindow
     private void GenerateGrid(List<List<Vector3>> posList)
     {
 
-        test.Clear();
+        lastCreatedGrid.Clear();
         GameObject gridParent = new GameObject("GridParent");
+        lastGridParent = gridParent;
         int i = 1;
+        int j = 0;
         foreach (List<Vector3> row in posList)
         {
             GameObject rowParent = new GameObject("RowParent" + i);
             rowParent.transform.position = row[0];
-            test.Add(rowParent);
+            lastCreatedGrid.Add(rowParent);
+            GameObject currentPrefab = testPrefab == null ? rowPrefabs[j] : testPrefab;
             i++;
+            j++;
+            if (currentPrefab == null)
+            {
+                Debug.LogWarning($"Missing prefab for row {j + 1}, skipping row");
+                continue;
+            }
+
             foreach (Vector3 pos in row)
             {
-                GameObject block = Instantiate(testPrefab, pos, Quaternion.identity);
+                GameObject block = Instantiate(currentPrefab, pos, Quaternion.identity);
                 block.transform.SetParent(rowParent.transform, true);
 
             }
@@ -200,6 +226,16 @@ public class GridTool : EditorWindow
     {
         return Mathf.Round(value / snap) * snap;
     }
-
+    private void GeneratePrefabList()
+    {
+        if (rowPrefabs.Count != positionList.Count)
+        {
+            rowPrefabs.Clear();
+            for (int i = 0; i < positionList.Count; i++)
+            {
+                rowPrefabs.Add(null);
+            }
+        }
+    }
 }
 
