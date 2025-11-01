@@ -38,7 +38,11 @@ public class Player : MonoBehaviour, IControllable
     public void Jump()
     {
         Debug.Log("Jump" + IsGrounded());
-        if (IsGrounded()) _rigidbody2D.linearVelocity = new Vector2(_rigidbody2D.linearVelocityX, _jumpForce);
+        if (IsGrounded())
+        {
+            _rigidbody2D.linearVelocity = new Vector2(_rigidbody2D.linearVelocityX, _jumpForce);
+            Events.onPlayerActionPerformed.Publish(PlayerAction.Jump);
+        }
     }
     private bool IsGrounded()
     {

@@ -29,7 +29,7 @@ public class PlayerAnimator : MonoBehaviour
                 _animator.SetBool("isRunning", true);
                 _spriteRenderer.flipX = true;
                 break;
-            case PlayerState.Idle:
+            default:
                 Debug.Log("idle");
                 _animator.SetBool("isRunning", false);
                 break;
