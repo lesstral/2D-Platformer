@@ -4,10 +4,11 @@ public class MainMenu : MonoBehaviour
 {
     [SerializeField] private GameObject _settingsMenu;
     [SerializeField] private GameObject _mainMenu;
+    [SerializeField] private GameObject _levelMenu;
     public void OnPlayButtonClicked()
     {
-        Debug.Log("Clicked");
-
+        _mainMenu.SetActive(false);
+        _levelMenu.SetActive(true);
     }
     public void OnQuitButtonClicked()
     {
