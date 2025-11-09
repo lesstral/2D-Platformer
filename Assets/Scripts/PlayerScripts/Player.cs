@@ -33,7 +33,7 @@ public class Player : MonoBehaviour, IControllable
         {
             _playerState = PlayerState.Idle;
         }
-        Events.onPlayerStateChanged.Publish(_playerState);
+        Events.PlayerEvents.onPlayerStateChanged.Publish(_playerState);
     }
     public void Jump()
     {
@@ -41,13 +41,14 @@ public class Player : MonoBehaviour, IControllable
         if (IsGrounded())
         {
             _rigidbody2D.linearVelocity = new Vector2(_rigidbody2D.linearVelocityX, _jumpForce);
-            Events.onPlayerActionPerformed.Publish(PlayerAction.Jump);
+            Events.PlayerEvents.onPlayerActionPerformed.Publish(PlayerAction.Jump);
         }
     }
     private bool IsGrounded()
     {
         Debug.DrawRay(_groundCheck.position, transform.forward * 5f, Color.red);
 
-        return Physics2D.OverlapBox(_groundCheck.position, new Vector2(0.18f, 0.1f), 0f, _groundLayer);
+        return Physics2D.OverlapBox(_groundCheck.position, new Vector2(0.15f, 0.1f), 0f, _groundLayer);
+
     }
 }
