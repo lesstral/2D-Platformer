@@ -8,6 +8,7 @@ public class MainMenu : MonoBehaviour
     [SerializeField] private GameObject _levelMenu;
     private void Awake()
     {
+        Debug.Log("IM LOADED");
         if (Instance == null)
         {
             Instance = this;

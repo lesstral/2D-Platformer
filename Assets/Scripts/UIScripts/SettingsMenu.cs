@@ -19,6 +19,7 @@ public class SettingsMenu : MonoBehaviour
 
     private void Start()
     {
+
         _sliderMaster.value = SettingsManager.Instance._currentMaster;
         _sliderSFX.value = SettingsManager.Instance._currentSFX;
         _sliderMusic.value = SettingsManager.Instance._currentMusic;

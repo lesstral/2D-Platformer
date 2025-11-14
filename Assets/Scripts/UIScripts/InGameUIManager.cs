@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class InGameUIManager : MonoBehaviour
 {
@@ -41,7 +42,7 @@ public class InGameUIManager : MonoBehaviour
     }
     public void BackToMainMenu()
     {
-
+        SceneManager.LoadScene("MainMenu");
     }
 
 }

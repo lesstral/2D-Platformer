@@ -40,8 +40,8 @@ public class LevelMenuManager : MonoBehaviour
         {
             GameObject levelCell = Instantiate(_levelCellPrefab);
             levelCell.GetComponent<LevelCell>().Setup(level);
-            levelCell.transform.parent = _contentParent.transform;
-            levelCell.transform.localScale = new Vector3(1, 1, 1);
+            RectTransform levelRect = levelCell.GetComponent<RectTransform>();
+            levelRect.SetParent(_contentParent.transform, false);
         }
     }
     public void OnExitButtonClicked()

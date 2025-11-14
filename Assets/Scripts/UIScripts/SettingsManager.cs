@@ -13,11 +13,14 @@ public class SettingsManager : MonoBehaviour
     public Resolution _currentResolution { get; private set; }
     private void Awake()
     {
+
         if (Instance == null)
         {
             Instance = this;
             DontDestroyOnLoad(gameObject);
+#if UNITY_STANDALONE
             LoadSettings();
+#endif
         }
         else
         {
@@ -34,7 +37,6 @@ public class SettingsManager : MonoBehaviour
         {
             case AudioChannel.Master:
                 channelString = "Master";
-                Debug.Log(channelString + " " + volume);
                 _currentMaster = volume;
                 break;
             case AudioChannel.SFX:
@@ -71,8 +73,15 @@ public class SettingsManager : MonoBehaviour
         SetVolume(_currentMaster, AudioChannel.Master);
         SetVolume(_currentSFX, AudioChannel.SFX);
         SetVolume(_currentMusic, AudioChannel.Music);
-        int width = PlayerPrefs.GetInt("ResolutionWidth", Screen.currentResolution.width);
-        int height = PlayerPrefs.GetInt("ResolutionHeight", Screen.currentResolution.height);
+        int width = PlayerPrefs.GetInt("ResolutionWidth", 800);
+        int height = PlayerPrefs.GetInt("ResolutionHeight", 600);
+        if (width < 200 || height < 200)
+        {
+            Debug.LogWarning("bad resolution setting");
+            Display display = Display.displays[0];
+            width = display.systemWidth;
+            height = display.systemHeight;
+        }
         _currentResolution = new Resolution { width = width, height = height };
         SetResolution(_currentResolution);
     }
