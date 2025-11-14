@@ -9,14 +9,16 @@ public class PlayerAnimator : MonoBehaviour
     [SerializeField] private SpriteRenderer _spriteRenderer;
     private void OnEnable()
     {
-        Events.onPlayerStateChanged.Add(HandleEvent);
+        Events.PlayerEvents.onPlayerStateChanged.Add(HandlePlayerStateEvent);
+        Events.PlayerEvents.onPlayerActionPerformed.Add(HandlePlayerActionEvent);
     }
     private void OnDisable()
     {
-        Events.onPlayerStateChanged.Remove(HandleEvent);
+        Events.PlayerEvents.onPlayerStateChanged.Remove(HandlePlayerStateEvent);
+        Events.PlayerEvents.onPlayerActionPerformed.Remove(HandlePlayerActionEvent);
     }
 
-    public void HandleEvent(PlayerState playerState)
+    public void HandlePlayerStateEvent(PlayerState playerState)
     {
         switch (playerState)
         {
@@ -32,6 +34,20 @@ public class PlayerAnimator : MonoBehaviour
             default:
                 Debug.Log("idle");
                 _animator.SetBool("isRunning", false);
+                break;
+        }
+    }
+    public void HandlePlayerActionEvent(PlayerAction playerAction)
+    {
+        switch (playerAction)
+        {
+            case PlayerAction.Spawn:
+
+                break;
+            case PlayerAction.Death:
+                _animator.SetTrigger("Hit");
+                break;
+            default:
                 break;
         }
     }

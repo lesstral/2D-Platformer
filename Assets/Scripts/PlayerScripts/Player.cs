@@ -51,4 +51,8 @@ public class Player : MonoBehaviour, IControllable
         return Physics2D.OverlapBox(_groundCheck.position, new Vector2(0.15f, 0.1f), 0f, _groundLayer);
 
     }
+    public void Die()
+    {
+        Events.PlayerEvents.onPlayerActionPerformed.Publish(PlayerAction.Death);
+    }
 }

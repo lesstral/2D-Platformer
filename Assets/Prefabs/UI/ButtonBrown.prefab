@@ -224,7 +224,7 @@ GameObject:
   - component: {fileID: 7145128579078529267}
   - component: {fileID: 358043760725409756}
   m_Layer: 5
-  m_Name: Button
+  m_Name: ButtonBrown
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -239,8 +239,8 @@ RectTransform:
   m_GameObject: {fileID: 8764860587169949372}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.6703704, y: 0.6703704, z: 0.6703704}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 1447446082200037899}
   - {fileID: 5656311601131175795}

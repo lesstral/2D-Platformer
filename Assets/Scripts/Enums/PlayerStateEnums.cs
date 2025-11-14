@@ -6,7 +6,3 @@ public enum PlayerState
     RunningLeft,
     Idle
 }
-public enum PlayerAction
-{
-    Jump
-}

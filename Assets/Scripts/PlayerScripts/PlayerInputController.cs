@@ -9,7 +9,6 @@ public class PlayerInputController : MonoBehaviour
     private void Awake()
     {
         _gameInput = new InputSystem_Actions();
-        _gameInput.Enable();
 
         _controllable = GetComponent<IControllable>();
         if (_controllable == null)
@@ -22,6 +21,7 @@ public class PlayerInputController : MonoBehaviour
     {
         _gameInput.Enable();
         _gameInput.Player.Jump.performed += OnJumpPerformed;
+        _gameInput.UI.OpenMenu.performed += OpenMenu;
         //_gameInput.Player.Interact.performed += OnInteractPerformed;
         // _gameInput.Player.Sprint.started += OnSprintStarted;
         //_gameInput.Player.Sprint.canceled += OnSprintCanceled;
@@ -34,11 +34,16 @@ public class PlayerInputController : MonoBehaviour
         _controllable.Jump();
     }
 
-
+    private void OpenMenu(InputAction.CallbackContext obj)
+    {
+        Events.UIEvents.MenuOnKeyOpen.Publish();
+    }
 
     private void OnDisable()
     {
+        _gameInput.Disable();
         _gameInput.Player.Jump.performed -= OnJumpPerformed;
+        _gameInput.UI.OpenMenu.performed -= OpenMenu;
         //_gameInput.Player.Sprint.started -= OnSprintStarted;
         // _gameInput.Player.Sprint.canceled -= OnSprintCanceled;
         // _gameInput.Player.Interact.performed -= OnInteractPerformed;

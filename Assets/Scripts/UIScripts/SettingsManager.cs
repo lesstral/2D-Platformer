@@ -7,7 +7,9 @@ public class SettingsManager : MonoBehaviour
     public static SettingsManager Instance;
     [SerializeField] private AudioMixer _audioMixer;
 
-    public float _currentVolume { get; private set; }
+    public float _currentMaster { get; private set; }
+    public float _currentSFX { get; private set; }
+    public float _currentMusic { get; private set; }
     public Resolution _currentResolution { get; private set; }
     private void Awake()
     {
@@ -25,27 +27,50 @@ public class SettingsManager : MonoBehaviour
 
 
     }
-    public void SetMasterVolume(float volume)
+    public void SetVolume(float volume, AudioChannel audioChannel)
     {
-        _currentVolume = volume;
+        string channelString = " ";
+        switch (audioChannel)
+        {
+            case AudioChannel.Master:
+                channelString = "Master";
+                Debug.Log(channelString + " " + volume);
+                _currentMaster = volume;
+                break;
+            case AudioChannel.SFX:
+                channelString = "SFX";
+                _currentSFX = volume;
+                break;
+            case AudioChannel.Music:
+                channelString = "Music";
+                _currentMusic = volume;
+                break;
+        }
+
         if (volume < 0.01)
         {
 
-            _audioMixer.SetFloat("Master", -80);
+            _audioMixer.SetFloat(channelString, -80);
             return;
         }
-        _audioMixer.SetFloat("Master", Mathf.Log10(volume) * 20);
 
+        _audioMixer.SetFloat(channelString, Mathf.Log10(volume) * 20);
+        SaveSettings();
     }
     public void SetResolution(Resolution resolution)
     {
         Screen.SetResolution(resolution.width, resolution.height, true);
         _currentResolution = resolution;
+        SaveSettings();
     }
     private void LoadSettings()
     {
-        _currentVolume = PlayerPrefs.GetFloat("MasterVolume", 1f);
-        SetMasterVolume(_currentVolume);
+        _currentMaster = PlayerPrefs.GetFloat("MasterVolume", 0.5f);
+        _currentSFX = PlayerPrefs.GetFloat("SFXVolume", 1f);
+        _currentMusic = PlayerPrefs.GetFloat("MMusicVolume", 1f);
+        SetVolume(_currentMaster, AudioChannel.Master);
+        SetVolume(_currentSFX, AudioChannel.SFX);
+        SetVolume(_currentMusic, AudioChannel.Music);
         int width = PlayerPrefs.GetInt("ResolutionWidth", Screen.currentResolution.width);
         int height = PlayerPrefs.GetInt("ResolutionHeight", Screen.currentResolution.height);
         _currentResolution = new Resolution { width = width, height = height };
@@ -55,7 +80,9 @@ public class SettingsManager : MonoBehaviour
     {
         PlayerPrefs.SetInt("ResolutionWidth", _currentResolution.width);
         PlayerPrefs.SetInt("ResolutionHeight", _currentResolution.height);
-        PlayerPrefs.SetFloat("MasterVolume", _currentVolume);
+        PlayerPrefs.SetFloat("MasterVolume", _currentMaster);
+        PlayerPrefs.SetFloat("SFXVolume", _currentSFX);
+        PlayerPrefs.SetFloat("MusicVolume", _currentMusic);
         PlayerPrefs.Save();
     }
 }
