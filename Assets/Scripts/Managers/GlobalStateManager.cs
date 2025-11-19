@@ -78,9 +78,10 @@ public class GlobalStateManager : MonoBehaviour
     public void LoadLevel(LevelData levelData)
     {
         levelData.scene.LoadSceneAsync(UnityEngine.SceneManagement.LoadSceneMode.Single);
+        SetCurrentLevel(levelData);
     }
 
-    public void SetCurrentLevel(LevelData newLevel)
+    private void SetCurrentLevel(LevelData newLevel)
     {
         _currentLevel = newLevel;
     }
