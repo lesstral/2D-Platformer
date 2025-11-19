@@ -18,9 +18,7 @@ public class SettingsManager : MonoBehaviour
         {
             Instance = this;
             DontDestroyOnLoad(gameObject);
-#if UNITY_STANDALONE
             LoadSettings();
-#endif
         }
         else
         {
@@ -67,9 +65,9 @@ public class SettingsManager : MonoBehaviour
     }
     private void LoadSettings()
     {
-        _currentMaster = PlayerPrefs.GetFloat("MasterVolume", 0.5f);
-        _currentSFX = PlayerPrefs.GetFloat("SFXVolume", 1f);
-        _currentMusic = PlayerPrefs.GetFloat("MMusicVolume", 1f);
+        _currentMaster = PlayerPrefs.GetFloat("Master", 0.5f);
+        _currentSFX = PlayerPrefs.GetFloat("SFX", 1f);
+        _currentMusic = PlayerPrefs.GetFloat("Music", 1f);
         SetVolume(_currentMaster, AudioChannel.Master);
         SetVolume(_currentSFX, AudioChannel.SFX);
         SetVolume(_currentMusic, AudioChannel.Music);
@@ -89,9 +87,9 @@ public class SettingsManager : MonoBehaviour
     {
         PlayerPrefs.SetInt("ResolutionWidth", _currentResolution.width);
         PlayerPrefs.SetInt("ResolutionHeight", _currentResolution.height);
-        PlayerPrefs.SetFloat("MasterVolume", _currentMaster);
-        PlayerPrefs.SetFloat("SFXVolume", _currentSFX);
-        PlayerPrefs.SetFloat("MusicVolume", _currentMusic);
+        PlayerPrefs.SetFloat("Master", _currentMaster);
+        PlayerPrefs.SetFloat("SFX", _currentSFX);
+        PlayerPrefs.SetFloat("Music", _currentMusic);
         PlayerPrefs.Save();
     }
 }

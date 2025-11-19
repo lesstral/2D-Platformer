@@ -29,9 +29,9 @@ public class Platform : MonoBehaviour
         while (true)
         {
             Vector3 targetPos = _horizontalMovement
-                   ? new Vector3(_currentTargetPosition,
+                   ? new Vector3(_currentTargetPosition, // x movement
                    transform.position.y, transform.position.z)
-                   : new Vector3(transform.position.x,
+                   : new Vector3(transform.position.x, // y movement
                    _currentTargetPosition, transform.position.z);
             while (!HasReachedTargetPosition(targetPos))
             {

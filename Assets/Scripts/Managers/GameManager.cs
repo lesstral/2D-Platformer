@@ -1,5 +1,4 @@
 using System;
-using UnityEditor.SearchService;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
@@ -8,6 +7,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject _player;
     [SerializeField] private Transform _spawnPoint;
     [SerializeField] private int _lives = 3;
+    private int _score = 0;
     private void Awake()
     {
         if (Instance == null)
@@ -35,6 +35,7 @@ public class GameManager : MonoBehaviour
     private void OnDisable()
     {
         Events.PlayerEvents.onPlayerActionPerformed.Remove(HandlePlayerEvents);
+        Events.GameEvents.onCollectiblePickedUp.Remove(UpdateScore);
         Events.UIEvents.onMenuOpened.Remove(Pause);
         Events.UIEvents.onMenuClosed.Remove(Resume);
     }
@@ -43,19 +44,28 @@ public class GameManager : MonoBehaviour
         switch (playerAction)
         {
             case PlayerAction.Death:
+                _lives--;
                 if (!GameOver())
                 {
-
                     SpawnPlayer();
-                    _lives--;
+
                     Events.UIEvents.onLiveCounterUpdate.Publish(_lives);
                 }
                 else
                 {
-                    //gameover event
+                    Events.UIEvents.onGameOver.Publish();
+                    Pause();
                 }
                 break;
         }
+    }
+    private void Victory()
+    {
+        Events.UIEvents.onVictory.Publish(_score);
+    }
+    private void UpdateScore(int value)
+    {
+
     }
     private bool GameOver()
     {

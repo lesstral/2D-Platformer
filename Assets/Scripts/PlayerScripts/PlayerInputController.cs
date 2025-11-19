@@ -36,7 +36,7 @@ public class PlayerInputController : MonoBehaviour
 
     private void OpenMenu(InputAction.CallbackContext obj)
     {
-        Events.UIEvents.MenuOnKeyOpen.Publish();
+        Events.UIEvents.menuOnKeyOpen.Publish();
     }
 
     private void OnDisable()

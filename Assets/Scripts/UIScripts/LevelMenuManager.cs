@@ -1,8 +1,10 @@
 using System.Collections.Generic;
-using System.Threading.Tasks;
+
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
+using UnityEngine.SceneManagement;
+
 
 public class LevelMenuManager : MonoBehaviour
 {
@@ -10,10 +12,17 @@ public class LevelMenuManager : MonoBehaviour
     [SerializeField] private GameObject _mainMenu;
     [SerializeField] private GameObject _contentParent;
     [SerializeField] private GameObject _levelCellPrefab;
-    private List<LevelData> levelDataSO = new List<LevelData>();
+    [SerializeField] private GameObject _levelCellPrefabLocked;
+    [SerializeField] private LevelCatalog _levelCatalogSO;
+    private List<LevelData> _levelDataSO = new List<LevelData>();
     private string _addressablesLabel = "LevelData";
     private void Start()
     {
+        if (GlobalStateManager.Instance == null)
+        {
+            Debug.LogError("No GlobalStateManager instance available");
+        }
+        LevelCatalog.Instance = _levelCatalogSO;
         LoadLevelData();
 
     }
@@ -25,8 +34,10 @@ public class LevelMenuManager : MonoBehaviour
     {
         if (handle.Status == AsyncOperationStatus.Succeeded)
         {
-            levelDataSO = new List<LevelData>(handle.Result);
-            Debug.Log($"Loaded {levelDataSO.Count} levels");
+            _levelDataSO = new List<LevelData>(handle.Result);
+            Debug.Log($"Loaded {_levelDataSO.Count} levels");
+            _levelDataSO.Sort((levelA, levelB) => levelA.ID.CompareTo(levelB.ID));
+            _levelCatalogSO.levelList = new List<LevelData>(handle.Result);
             FillLevelGrid();
         }
         else
@@ -36,9 +47,19 @@ public class LevelMenuManager : MonoBehaviour
     }
     private void FillLevelGrid()
     {
-        foreach (LevelData level in levelDataSO)
+        foreach (LevelData level in _levelDataSO)
         {
-            GameObject levelCell = Instantiate(_levelCellPrefab);
+            GameObject levelCell;
+            if (!GlobalStateManager.Instance.IsLocked(level.ID) || level.ID == 0)
+            {
+                levelCell = Instantiate(_levelCellPrefab);
+
+            }
+            else
+            {
+                levelCell = Instantiate(_levelCellPrefabLocked);
+            }
+
             levelCell.GetComponent<LevelCell>().Setup(level);
             RectTransform levelRect = levelCell.GetComponent<RectTransform>();
             levelRect.SetParent(_contentParent.transform, false);

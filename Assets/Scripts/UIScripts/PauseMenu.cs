@@ -1,21 +1,30 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class InGameUIManager : MonoBehaviour
+public class PauseMenu : SettingsMenu
 {
     [SerializeField] private GameObject _pauseMenu;
     [SerializeField] private GameObject _buttonGrid;
+    [SerializeField] private GameObject _livesCounter;
     private bool isMenuOpen = false;
 
     private void OnEnable()
     {
-        Events.UIEvents.MenuOnKeyOpen.Add(HandleEvent);
+        Events.UIEvents.menuOnKeyOpen.Add(ToggleMenu);
+        Events.UIEvents.onGameOver.Add(OnGameOver);
     }
     private void OnDisable()
     {
-        Events.UIEvents.MenuOnKeyOpen.Remove(HandleEvent);
+        Events.UIEvents.menuOnKeyOpen.Remove(ToggleMenu);
+        Events.UIEvents.onGameOver.Remove(OnGameOver);
     }
-    private void HandleEvent()
+    private void OnGameOver()
+    {
+        _pauseMenu.SetActive(false);
+        _buttonGrid.SetActive(false);
+        _livesCounter.SetActive(false);
+    }
+    private void ToggleMenu()
     {
         if (isMenuOpen)
         {
@@ -30,6 +39,7 @@ public class InGameUIManager : MonoBehaviour
     {
         _pauseMenu.SetActive(true);
         _buttonGrid.SetActive(false);
+        _livesCounter.SetActive(false);
         isMenuOpen = true;
         Events.UIEvents.onMenuOpened.Publish();
     }
@@ -39,10 +49,11 @@ public class InGameUIManager : MonoBehaviour
         isMenuOpen = false;
         _pauseMenu.SetActive(false);
         _buttonGrid.SetActive(true);
+        _livesCounter.SetActive(true);
     }
     public void BackToMainMenu()
     {
-        SceneManager.LoadScene("MainMenu");
+        GlobalStateManager.Instance.LoadMainMenu();
     }
 
 }

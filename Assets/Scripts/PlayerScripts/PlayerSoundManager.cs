@@ -9,7 +9,7 @@ public class PlayerSoundManager : MonoBehaviour
     [SerializeField] private AudioClip _hitSound;
     [SerializeField] private AudioClip _deathSound;
     [SerializeField] private AudioClip _spawnSound;
-    private void Start()
+    private void Awake()
     {
         _audioSource = GetComponent<AudioSource>();
     }

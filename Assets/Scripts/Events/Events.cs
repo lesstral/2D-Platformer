@@ -18,7 +18,9 @@ public class Events
         public static readonly GameEvent<int> onLiveCounterUpdate = new GameEvent<int>();
         public static readonly GameEvent onMenuOpened = new GameEvent();
         public static readonly GameEvent onMenuClosed = new GameEvent();
-        public static readonly GameEvent MenuOnKeyOpen = new GameEvent();
+        public static readonly GameEvent menuOnKeyOpen = new GameEvent();
+        public static readonly GameEvent onGameOver = new GameEvent();
+        public static readonly GameEvent<int> onVictory = new GameEvent<int>();
     }
 
 }

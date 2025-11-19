@@ -16,6 +16,7 @@ public class SettingsMenu : MonoBehaviour
     [SerializeField] private bool InGame;
     private List<Resolution> _resolutions = new List<Resolution>();
     List<string> _resolutionOptions = new List<String>();
+    int _currentResolutionIndex = 0;
 
     private void Start()
     {
@@ -29,19 +30,19 @@ public class SettingsMenu : MonoBehaviour
         if (!InGame)
         {
             int i = 0;
-            int currentResolutionIndex = 0;
+
             foreach (Resolution res in _resolutions)
             {
                 _resolutionOptions.Add($"{res.width}x{res.height}");
                 i++;
                 if (res.width == Screen.currentResolution.width && res.height == Screen.currentResolution.height)
                 {
-                    currentResolutionIndex = i;
+                    _currentResolutionIndex = i;
                 }
             }
             _dropdown.ClearOptions();
             _dropdown.AddOptions(_resolutionOptions);
-            _dropdown.value = currentResolutionIndex;
+            _dropdown.value = _currentResolutionIndex;
             _dropdown.RefreshShownValue();
         }
     }
@@ -63,8 +64,10 @@ public class SettingsMenu : MonoBehaviour
     {
         SettingsManager.Instance.SetVolume(value, AudioChannel.Music);
     }
-    public void OnResolutionChange()
+    public void OnResolutionChange(int value)
     {
+        Screen.SetResolution(_resolutions[value].width, _resolutions[value].height, true);
+        _currentResolutionIndex = value;
 
     }
 }

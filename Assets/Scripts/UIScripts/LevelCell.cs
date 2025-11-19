@@ -12,6 +12,12 @@ public class LevelCell : MonoBehaviour
     public bool Setup(LevelData levelData)
     {
         _levelDataSO = levelData;
+        if (_levelDataSO.scene == null)
+        {
+            Debug.LogWarning("Scene reference is incorrect in level" + _levelDataSO.levelName);
+            return false; // if empty then setup failed
+        }
+
         if (_levelDataSO.levelName != null)
         {
             _levelNameTextField.SetText(_levelDataSO.levelName);
@@ -20,15 +26,12 @@ public class LevelCell : MonoBehaviour
         {
             _levelButton.image.sprite = _levelDataSO.thumbnail;
         }
-        if (_levelDataSO.scene == null)
-        {
-            Debug.LogWarning("Scene reference is incorrect in level" + _levelDataSO.levelName);
-            return false; // if empty then setup failed
-        }
+
         return true;
     }
     public void OnLevelClicked()
     {
-        _levelDataSO.scene.LoadSceneAsync(LoadSceneMode.Single);
+        GlobalStateManager.Instance.SetCurrentLevel(_levelDataSO);
+        GlobalStateManager.Instance.LoadLevel(_levelDataSO);
     }
 }
