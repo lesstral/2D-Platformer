@@ -8,8 +8,8 @@ using UnityEngine.SceneManagement;
 
 public class LevelMenuManager : MonoBehaviour
 {
-    [SerializeField] private GameObject _levelMenu;
-    [SerializeField] private GameObject _mainMenu;
+    [SerializeField] private GameObject _levelMenuFrame;
+    [SerializeField] private MainMenu _mainMenu;
     [SerializeField] private GameObject _contentParent;
     [SerializeField] private GameObject _levelCellPrefab;
     [SerializeField] private GameObject _levelCellPrefabLocked;
@@ -59,7 +59,15 @@ public class LevelMenuManager : MonoBehaviour
     }
     public void OnExitButtonClicked()
     {
-        _levelMenu.SetActive(false);
-        _mainMenu.SetActive(true);
+        this.Close();
+        _mainMenu.Open();
+    }
+    public void Open()
+    {
+        _levelMenuFrame.SetActive(true);
+    }
+    public void Close()
+    {
+        _levelMenuFrame.SetActive(false);
     }
 }

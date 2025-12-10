@@ -3,9 +3,10 @@ using UnityEngine;
 public class MainMenu : MonoBehaviour
 {
     MainMenu Instance;
-    [SerializeField] private GameObject _settingsMenu;
-    [SerializeField] private GameObject _mainMenu;
-    [SerializeField] private GameObject _levelMenu;
+    [SerializeField] private SettingsMenu _settingsMenu;
+    [SerializeField] private GameObject _mainMenuFrame;
+    [SerializeField] private GameObject _settingButtonFrame;
+    [SerializeField] private LevelMenuManager _levelMenu;
     private void Awake()
     {
         if (Instance == null)
@@ -21,17 +22,27 @@ public class MainMenu : MonoBehaviour
 
     public void OnPlayButtonClicked()
     {
-        _mainMenu.SetActive(false);
-        _levelMenu.SetActive(true);
+        this.Close();
+        _levelMenu.Open();
+    }
+    public void OnSettingsButtonClicked()
+    {
+        this.Close();
+        _settingsMenu.Open();
     }
     public void OnQuitButtonClicked()
     {
         Application.Quit();
     }
-    public void OpenSettings()
-    {
-        _mainMenu.SetActive(false);
-        _settingsMenu.SetActive(true);
 
+    public void Open()
+    {
+        _mainMenuFrame.SetActive(true);
+        _settingButtonFrame.SetActive(true);
+    }
+    public void Close()
+    {
+        _mainMenuFrame.SetActive(false);
+        _settingButtonFrame.SetActive(false);
     }
 }

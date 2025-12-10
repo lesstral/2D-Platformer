@@ -7,12 +7,12 @@ using UnityEngine.UI;
 
 public class SettingsMenu : MonoBehaviour
 {
-    [SerializeField] private GameObject _settingsMenu;
+    [SerializeField] private GameObject _settingsMenuFrame;
     [SerializeField] private Slider _sliderMaster;
     [SerializeField] private Slider _sliderSFX;
     [SerializeField] private Slider _sliderMusic;
     [SerializeField] private TMP_Dropdown _dropdown;
-    [SerializeField] private GameObject _mainMenu;
+    [SerializeField] private MainMenu _mainMenu;
     [SerializeField] private bool InGame;
     private List<Resolution> _resolutions = new List<Resolution>();
     List<string> _resolutionOptions = new List<String>();
@@ -46,11 +46,18 @@ public class SettingsMenu : MonoBehaviour
             _dropdown.RefreshShownValue();
         }
     }
-    public void BackToMenu()
+    public void OnBackToMenuButtonClicked()
     {
-        _settingsMenu.SetActive(false);
-        _mainMenu.SetActive(true);
-
+        this.Close();
+        _mainMenu.Open();
+    }
+    public void Open()
+    {
+        _settingsMenuFrame.SetActive(true);
+    }
+    public void Close()
+    {
+        _settingsMenuFrame.SetActive(false);
     }
     public void OnMasterChange(float value)
     {
