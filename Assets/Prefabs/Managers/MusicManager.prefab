@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3435401617303486041}
   - component: {fileID: 282563168470770432}
+  - component: {fileID: 8345827007934810666}
   m_Layer: 0
   m_Name: MusicManager
   m_TagString: Untagged
@@ -42,7 +43,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 1938941354558861179, guid: 947571cbe3b8bc64989e44092b0f581b, type: 2}
-  m_audioClip: {fileID: 8300000, guid: b356a085b4b14c4479d25a0637c8c145, type: 3}
+  m_audioClip: {fileID: 0}
   m_Resource: {fileID: 8300000, guid: b356a085b4b14c4479d25a0637c8c145, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 1
@@ -129,3 +130,17 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &8345827007934810666
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7806262708672897779}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4f20658f8a43e6f4bb168b0788e20bb7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MusicManager
+  _audioSource: {fileID: 282563168470770432}
+  _musicCollection: {fileID: 11400000, guid: 6050eeb2b1edcbf4c8ff1c3a23eaecff, type: 2}
