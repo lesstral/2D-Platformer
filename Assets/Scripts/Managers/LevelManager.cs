@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class LevelManager : MonoBehaviour
 {
@@ -19,11 +20,32 @@ public class LevelManager : MonoBehaviour
         }
         Instance = this;
         DontDestroyOnLoad(gameObject);
-        LoadLevelData();
+
     }
-    private void LoadLevelData()
+    private void OnEnable()
     {
-        Addressables.LoadAssetsAsync<LevelData>(_addressablesLabel, null).Completed += OnLevelsLoaded;
+        SceneManager.sceneLoaded += LoadLevelData;
+    }
+    private void OnDisable()
+    {
+        SceneManager.sceneLoaded -= LoadLevelData;
+    }
+    private void LoadLevelData(Scene scene, LoadSceneMode arg1)
+    {
+        if (scene.name != "MainMenu")
+        {
+            return;
+        }
+        if (_loadedLevels == null)
+        {
+            Addressables.LoadAssetsAsync<LevelData>(_addressablesLabel, null).Completed +=
+            OnLevelsLoaded;
+        }
+        else
+        {
+            Events.UIEvents.onLevelsLoaded.Publish();
+        }
+
     }
     private void OnLevelsLoaded(AsyncOperationHandle<IList<LevelData>> handle)
     {
@@ -32,9 +54,7 @@ public class LevelManager : MonoBehaviour
         {
             _loadedLevels = new List<LevelData>(handle.Result);
             _loadedLevels.Sort((levelA, levelB) => levelA.ID.CompareTo(levelB.ID));
-            Debug.Log(_loadedLevels.Count);
             Events.UIEvents.onLevelsLoaded.Publish();
-
         }
         else
         {
@@ -42,6 +62,7 @@ public class LevelManager : MonoBehaviour
         }
 
     }
+
     public LevelData GetCurrentLevelData()
     {
         return _currentLevel;

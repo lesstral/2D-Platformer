@@ -31,6 +31,6 @@ public class LevelCell : MonoBehaviour
     }
     public void OnLevelClicked()
     {
-        GlobalStateManager.Instance.LoadLevel(_levelDataSO);
+        LevelManager.Instance.LoadLevel(_levelDataSO);
     }
 }

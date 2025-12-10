@@ -20,7 +20,10 @@ public class LevelMenuManager : MonoBehaviour
         {
             Debug.LogError("No LevelManager instance available");
         }
-
+        if (SaveManager.Instance == null)
+        {
+            Debug.LogError("No SaveManager instance available");
+        }
     }
     private void OnEnable()
     {
@@ -40,7 +43,7 @@ public class LevelMenuManager : MonoBehaviour
         foreach (LevelData level in levels)
         {
             GameObject levelCell;
-            if (!GlobalStateManager.Instance.IsLocked(level.ID) || level.ID == 0)
+            if (!SaveManager.Instance.IsLocked(level.ID) || level.ID == 0)
             {
                 levelCell = Instantiate(_levelCellPrefab);
             }

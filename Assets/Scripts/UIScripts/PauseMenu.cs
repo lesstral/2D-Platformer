@@ -7,7 +7,13 @@ public class PauseMenu : SettingsMenu
     [SerializeField] private GameObject _buttonGrid;
     [SerializeField] private GameObject _livesCounter;
     private bool isMenuOpen = false;
-
+    private void Start()
+    {
+        if (LevelManager.Instance == null)
+        {
+            Debug.LogError("No LevelManager instance available");
+        }
+    }
     private void OnEnable()
     {
         Events.UIEvents.menuOnKeyOpen.Subscribe(ToggleMenu);
@@ -53,7 +59,7 @@ public class PauseMenu : SettingsMenu
     }
     public void BackToMainMenu()
     {
-        GlobalStateManager.Instance.LoadMainMenu();
+        LevelManager.Instance.LoadMainMenu();
     }
 
 }

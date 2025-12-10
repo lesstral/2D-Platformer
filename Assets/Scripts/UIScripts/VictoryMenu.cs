@@ -10,12 +10,20 @@ public class VictoryMenu : MonoBehaviour
     private LevelData _nextLevelData;
     private void Awake()
     {
-        _nextLevelData = GlobalStateManager.Instance.GetNextLevelData();
+
         if (_nextLevelData != null)
         {
             SpawnCell(_nextLevelData);
         }
         _visualParent.SetActive(false);
+    }
+    private void Start()
+    {
+        if (LevelManager.Instance == null)
+        {
+            Debug.LogError("No LevelManager instance available");
+        }
+        _nextLevelData = LevelManager.Instance.GetNextLevelData();
     }
     private void OnEnable()
     {
@@ -39,10 +47,10 @@ public class VictoryMenu : MonoBehaviour
     }
     public void OnMenuButtonClicked()
     {
-        GlobalStateManager.Instance.LoadMainMenu();
+        LevelManager.Instance.LoadMainMenu();
     }
     public void OnNextLevelButtonClicked()
     {
-        GlobalStateManager.Instance.LoadLevel(_nextLevelData);
+        LevelManager.Instance.LoadLevel(_nextLevelData);
     }
 }

@@ -7,6 +7,13 @@ public class GameoverMenu : MonoBehaviour
     {
         _visualParent.SetActive(false);
     }
+    private void Start()
+    {
+        if (LevelManager.Instance == null)
+        {
+            Debug.LogError("No LevelManager instance available");
+        }
+    }
     private void OnEnable()
     {
         Events.UIEvents.onGameOver.Subscribe(OnGameover);
@@ -21,10 +28,10 @@ public class GameoverMenu : MonoBehaviour
     }
     public void OnMainMenuButtonClicked()
     {
-        GlobalStateManager.Instance.LoadMainMenu();
+        LevelManager.Instance.LoadMainMenu();
     }
     public void OnRetryButtonClicked()
     {
-        GlobalStateManager.Instance.ReloadCurrentScene();
+        LevelManager.Instance.ReloadCurrentScene();
     }
 }
