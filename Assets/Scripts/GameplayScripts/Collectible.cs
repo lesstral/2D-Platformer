@@ -8,7 +8,7 @@ public class Collectible : MonoBehaviour
         Debug.Log("collision");
         if (collision.gameObject.GetComponent<Player>() != null)
         {
-            Events.GameEvents.onCollectiblePickedUp.Publish(_scoreGain);
+            Events.InGameEvents.onCollectiblePickedUp.Publish(_scoreGain);
             Events.PlayerEvents.onPlayerActionPerformed.Publish(PlayerAction.PickUp);
             Destroy(gameObject);
 

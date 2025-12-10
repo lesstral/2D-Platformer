@@ -27,17 +27,17 @@ public class GameManager : MonoBehaviour
     }
     private void OnEnable()
     {
-        Events.PlayerEvents.onPlayerActionPerformed.Add(HandlePlayerEvents);
-        Events.UIEvents.onMenuOpened.Add(Pause);
-        Events.UIEvents.onMenuClosed.Add(Resume);
+        Events.PlayerEvents.onPlayerActionPerformed.Subscribe(HandlePlayerEvents);
+        Events.UIEvents.onMenuOpened.Subscribe(Pause);
+        Events.UIEvents.onMenuClosed.Subscribe(Resume);
 
     }
     private void OnDisable()
     {
-        Events.PlayerEvents.onPlayerActionPerformed.Remove(HandlePlayerEvents);
-        Events.GameEvents.onCollectiblePickedUp.Remove(UpdateScore);
-        Events.UIEvents.onMenuOpened.Remove(Pause);
-        Events.UIEvents.onMenuClosed.Remove(Resume);
+        Events.PlayerEvents.onPlayerActionPerformed.Unsubscribe(HandlePlayerEvents);
+        Events.InGameEvents.onCollectiblePickedUp.Unsubscribe(UpdateScore);
+        Events.UIEvents.onMenuOpened.Unsubscribe(Pause);
+        Events.UIEvents.onMenuClosed.Unsubscribe(Resume);
     }
     private void HandlePlayerEvents(PlayerAction playerAction)
     {

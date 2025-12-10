@@ -8,11 +8,11 @@ public class GameEvent<T>
     {
         action?.Invoke(param);
     }
-    public void Add(Action<T> subscriber)
+    public void Subscribe(Action<T> subscriber)
     {
         action += subscriber;
     }
-    public void Remove(Action<T> subscriber)
+    public void Unsubscribe(Action<T> subscriber)
     {
         action -= subscriber;
     }

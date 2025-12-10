@@ -8,7 +8,7 @@ public class Events
         public static readonly GameEvent<PlayerAction> onPlayerActionPerformed = new GameEvent<PlayerAction>();
 
     }
-    public class GameEvents
+    public class InGameEvents
     {
         public static readonly GameEvent<int> onCollectiblePickedUp = new GameEvent<int>();
     }
@@ -21,6 +21,7 @@ public class Events
         public static readonly GameEvent menuOnKeyOpen = new GameEvent();
         public static readonly GameEvent onGameOver = new GameEvent();
         public static readonly GameEvent<int> onVictory = new GameEvent<int>();
+        public static readonly GameEvent onLevelsLoaded = new GameEvent();
     }
 
 }

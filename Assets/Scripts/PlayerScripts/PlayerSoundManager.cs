@@ -15,11 +15,11 @@ public class PlayerSoundManager : MonoBehaviour
     }
     private void OnEnable()
     {
-        Events.PlayerEvents.onPlayerActionPerformed.Add(HandleEvent);
+        Events.PlayerEvents.onPlayerActionPerformed.Subscribe(HandleEvent);
     }
     private void OnDisable()
     {
-        Events.PlayerEvents.onPlayerActionPerformed.Remove(HandleEvent);
+        Events.PlayerEvents.onPlayerActionPerformed.Unsubscribe(HandleEvent);
     }
     private void HandleEvent(PlayerAction playerAction)
     {

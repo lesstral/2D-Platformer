@@ -9,13 +9,13 @@ public class PlayerAnimator : MonoBehaviour
     [SerializeField] private SpriteRenderer _spriteRenderer;
     private void OnEnable()
     {
-        Events.PlayerEvents.onPlayerStateChanged.Add(HandlePlayerStateEvent);
-        Events.PlayerEvents.onPlayerActionPerformed.Add(HandlePlayerActionEvent);
+        Events.PlayerEvents.onPlayerStateChanged.Subscribe(HandlePlayerStateEvent);
+        Events.PlayerEvents.onPlayerActionPerformed.Subscribe(HandlePlayerActionEvent);
     }
     private void OnDisable()
     {
-        Events.PlayerEvents.onPlayerStateChanged.Remove(HandlePlayerStateEvent);
-        Events.PlayerEvents.onPlayerActionPerformed.Remove(HandlePlayerActionEvent);
+        Events.PlayerEvents.onPlayerStateChanged.Unsubscribe(HandlePlayerStateEvent);
+        Events.PlayerEvents.onPlayerActionPerformed.Unsubscribe(HandlePlayerActionEvent);
     }
 
     public void HandlePlayerStateEvent(PlayerState playerState)

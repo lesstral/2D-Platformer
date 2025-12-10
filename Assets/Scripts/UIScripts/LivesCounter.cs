@@ -9,11 +9,11 @@ public class LivesCounter : MonoBehaviour
 
     private void OnEnable()
     {
-        Events.UIEvents.onLiveCounterUpdate.Add(UpdateCounter);
+        Events.UIEvents.onLiveCounterUpdate.Subscribe(UpdateCounter);
     }
     private void OnDisable()
     {
-        Events.UIEvents.onLiveCounterUpdate.Remove(UpdateCounter);
+        Events.UIEvents.onLiveCounterUpdate.Unsubscribe(UpdateCounter);
     }
     private void UpdateCounter(int newLivesCount)
     {

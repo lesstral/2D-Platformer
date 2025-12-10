@@ -9,11 +9,11 @@ public class GameoverMenu : MonoBehaviour
     }
     private void OnEnable()
     {
-        Events.UIEvents.onGameOver.Add(OnGameover);
+        Events.UIEvents.onGameOver.Subscribe(OnGameover);
     }
     private void OnDisable()
     {
-        Events.UIEvents.onGameOver.Remove(OnGameover);
+        Events.UIEvents.onGameOver.Unsubscribe(OnGameover);
     }
     private void OnGameover()
     {

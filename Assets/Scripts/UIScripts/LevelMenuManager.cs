@@ -13,47 +13,36 @@ public class LevelMenuManager : MonoBehaviour
     [SerializeField] private GameObject _contentParent;
     [SerializeField] private GameObject _levelCellPrefab;
     [SerializeField] private GameObject _levelCellPrefabLocked;
-    [SerializeField] private LevelCatalog _levelCatalogSO;
-    private List<LevelData> _levelDataSO = new List<LevelData>();
-    private string _addressablesLabel = "LevelData";
+
     private void Start()
     {
-        if (GlobalStateManager.Instance == null)
+        if (LevelManager.Instance == null)
         {
-            Debug.LogError("No GlobalStateManager instance available");
+            Debug.LogError("No LevelManager instance available");
         }
-        LevelCatalog.Instance = _levelCatalogSO;
-        LoadLevelData();
 
     }
-    private void LoadLevelData()
+    private void OnEnable()
     {
-        Addressables.LoadAssetsAsync<LevelData>(_addressablesLabel, null).Completed += OnLevelsLoaded;
+        Events.UIEvents.onLevelsLoaded.Subscribe(OnLevelsLoaded);
     }
-    private void OnLevelsLoaded(AsyncOperationHandle<IList<LevelData>> handle)
+    private void OnDisable()
     {
-        if (handle.Status == AsyncOperationStatus.Succeeded)
-        {
-            _levelDataSO = new List<LevelData>(handle.Result);
-            Debug.Log($"Loaded {_levelDataSO.Count} levels");
-            _levelDataSO.Sort((levelA, levelB) => levelA.ID.CompareTo(levelB.ID));
-            _levelCatalogSO.levelList = new List<LevelData>(handle.Result);
-            FillLevelGrid();
-        }
-        else
-        {
-            Debug.LogError("Failed to load level data");
-        }
+        Events.UIEvents.onLevelsLoaded.Unsubscribe(OnLevelsLoaded);
     }
-    private void FillLevelGrid()
+    private void OnLevelsLoaded()
     {
-        foreach (LevelData level in _levelDataSO)
+        FillLevelGrid(LevelManager.Instance.GetLoadedLevels());
+
+    }
+    private void FillLevelGrid(List<LevelData> levels)
+    {
+        foreach (LevelData level in levels)
         {
             GameObject levelCell;
             if (!GlobalStateManager.Instance.IsLocked(level.ID) || level.ID == 0)
             {
                 levelCell = Instantiate(_levelCellPrefab);
-
             }
             else
             {

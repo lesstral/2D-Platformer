@@ -19,11 +19,11 @@ public class VictoryMenu : MonoBehaviour
     }
     private void OnEnable()
     {
-        Events.UIEvents.onVictory.Add(OnVictory);
+        Events.UIEvents.onVictory.Subscribe(OnVictory);
     }
     private void OnDisable()
     {
-        Events.UIEvents.onVictory.Remove(OnVictory);
+        Events.UIEvents.onVictory.Unsubscribe(OnVictory);
     }
     private void OnVictory(int score)
     {

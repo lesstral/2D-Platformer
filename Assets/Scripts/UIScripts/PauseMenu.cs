@@ -10,13 +10,13 @@ public class PauseMenu : SettingsMenu
 
     private void OnEnable()
     {
-        Events.UIEvents.menuOnKeyOpen.Add(ToggleMenu);
-        Events.UIEvents.onGameOver.Add(OnGameOver);
+        Events.UIEvents.menuOnKeyOpen.Subscribe(ToggleMenu);
+        Events.UIEvents.onGameOver.Subscribe(OnGameOver);
     }
     private void OnDisable()
     {
-        Events.UIEvents.menuOnKeyOpen.Remove(ToggleMenu);
-        Events.UIEvents.onGameOver.Remove(OnGameOver);
+        Events.UIEvents.menuOnKeyOpen.Unsubscribe(ToggleMenu);
+        Events.UIEvents.onGameOver.Unsubscribe(OnGameOver);
     }
     private void OnGameOver()
     {
