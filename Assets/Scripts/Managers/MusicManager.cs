@@ -29,6 +29,8 @@ public class MusicManager : MonoBehaviour
         }
         else
         {
+            _currentIndex = GenerateRandomIndex(-1);
+            _futureIndex = GenerateRandomIndex(_currentIndex);
             StartCoroutine(PlayLoop());
         }
     }
@@ -47,10 +49,13 @@ public class MusicManager : MonoBehaviour
     {
         while (true)
         {
-            _currentIndex = GenerateRandomIndex(_previousIndex);
-            _previousIndex = _currentIndex;
-            _futureIndex = GenerateRandomIndex(_currentIndex);
 
+            _previousIndex = _currentIndex;
+            _currentIndex = _futureIndex;
+            _futureIndex = GenerateRandomIndex(_currentIndex);
+            // future index avoids unlikely scenario
+            // where random generator outputs previous number
+            // again and again interrupting music flow
             AudioClip clip = _musicCollection.audioClips[_currentIndex];
             if (clip == null) yield break;
 
