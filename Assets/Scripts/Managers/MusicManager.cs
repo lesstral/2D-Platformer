@@ -52,16 +52,17 @@ public class MusicManager : MonoBehaviour
 
             _previousIndex = _currentIndex;
             _currentIndex = _futureIndex;
-            _futureIndex = GenerateRandomIndex(_currentIndex);
-            // future index avoids unlikely scenario
-            // where random generator outputs previous number
-            // again and again interrupting music flow
+
+
             AudioClip clip = _musicCollection.audioClips[_currentIndex];
             if (clip == null) yield break;
 
             _audioSource.clip = clip;
             _audioSource.Play();
-
+            _futureIndex = GenerateRandomIndex(_currentIndex);
+            // future index avoids unlikely scenario
+            // where random generator outputs previous number
+            // again and again interrupting music flow
 
             float overlap = 0.05f;
             yield return new WaitForSecondsRealtime(clip.length - overlap);
