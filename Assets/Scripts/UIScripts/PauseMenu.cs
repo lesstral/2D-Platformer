@@ -13,6 +13,7 @@ public class PauseMenu : SettingsMenu
         {
             Debug.LogError("No LevelManager instance available");
         }
+        SetupSliders();
     }
     private void OnEnable()
     {

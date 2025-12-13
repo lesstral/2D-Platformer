@@ -13,17 +13,18 @@ public class SettingsMenu : MonoBehaviour
     [SerializeField] private Slider _sliderMusic;
     [SerializeField] private TMP_Dropdown _dropdown;
     [SerializeField] private MainMenu _mainMenu;
-    [SerializeField] private bool InGame;
     private List<Resolution> _resolutions = new List<Resolution>();
     List<string> _resolutionOptions = new List<String>();
     int _currentResolutionIndex = 0;
 
     private void Start()
     {
-
-        _sliderMaster.value = SettingsManager.Instance._currentMaster;
-        _sliderSFX.value = SettingsManager.Instance._currentSFX;
-        _sliderMusic.value = SettingsManager.Instance._currentMusic;
+        SetupDropdown();
+        SetupSliders();
+    }
+    public void SetupDropdown()
+    {
+        int i = 0;
         _resolutions = Screen.resolutions
         .GroupBy(r => new { r.width, r.height })
         .Select(g => g.OrderByDescending(r => r.refreshRateRatio).First())
@@ -31,28 +32,28 @@ public class SettingsMenu : MonoBehaviour
         .ThenBy(r => r.height)
         .ToList();
 
-
-        if (!InGame)
+        foreach (Resolution res in _resolutions)
         {
-            int i = 0;
+            _resolutionOptions.Add($"{res.width}x{res.height}");
 
-            foreach (Resolution res in _resolutions)
+            if (res.width == Screen.currentResolution.width && res.height == Screen.currentResolution.height)
             {
-                _resolutionOptions.Add($"{res.width}x{res.height}");
-
-                if (res.width == Screen.currentResolution.width && res.height == Screen.currentResolution.height)
-                {
-                    _currentResolutionIndex = i;
-                }
+                _currentResolutionIndex = i;
             }
-            _dropdown.ClearOptions();
-            _dropdown.AddOptions(_resolutionOptions);
-            _dropdown.value = _currentResolutionIndex;
-            _dropdown.RefreshShownValue();
             i++;
         }
+        _dropdown.ClearOptions();
+        _dropdown.AddOptions(_resolutionOptions);
+        _dropdown.value = _currentResolutionIndex;
+        _dropdown.RefreshShownValue();
     }
-    public void OnBackToMenuButtonClicked()
+    protected void SetupSliders()
+    {
+        _sliderMaster.value = SettingsManager.Instance._currentMaster;
+        _sliderSFX.value = SettingsManager.Instance._currentSFX;
+        _sliderMusic.value = SettingsManager.Instance._currentMusic;
+    }
+    protected void OnBackToMenuButtonClicked()
     {
         this.Close();
         _mainMenu.Open();
