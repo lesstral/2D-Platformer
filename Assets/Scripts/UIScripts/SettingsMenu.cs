@@ -24,7 +24,12 @@ public class SettingsMenu : MonoBehaviour
         _sliderMaster.value = SettingsManager.Instance._currentMaster;
         _sliderSFX.value = SettingsManager.Instance._currentSFX;
         _sliderMusic.value = SettingsManager.Instance._currentMusic;
-        _resolutions = new List<Resolution>(Screen.resolutions);
+        _resolutions = Screen.resolutions
+        .GroupBy(r => new { r.width, r.height })
+        .Select(g => g.OrderByDescending(r => r.refreshRateRatio).First())
+        .OrderBy(r => r.width)
+        .ThenBy(r => r.height)
+        .ToList();
 
 
         if (!InGame)
@@ -34,7 +39,7 @@ public class SettingsMenu : MonoBehaviour
             foreach (Resolution res in _resolutions)
             {
                 _resolutionOptions.Add($"{res.width}x{res.height}");
-                i++;
+
                 if (res.width == Screen.currentResolution.width && res.height == Screen.currentResolution.height)
                 {
                     _currentResolutionIndex = i;
@@ -44,6 +49,7 @@ public class SettingsMenu : MonoBehaviour
             _dropdown.AddOptions(_resolutionOptions);
             _dropdown.value = _currentResolutionIndex;
             _dropdown.RefreshShownValue();
+            i++;
         }
     }
     public void OnBackToMenuButtonClicked()
