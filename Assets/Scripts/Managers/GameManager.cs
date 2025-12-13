@@ -71,10 +71,11 @@ public class GameManager : MonoBehaviour
     private void Victory()
     {
         Events.UIEvents.onVictory.Publish(_score);
+        Pause();
     }
     private void UpdateScore(int value)
     {
-
+        _score += value;
     }
     private bool GameOver()
     {
