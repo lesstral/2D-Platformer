@@ -5,9 +5,11 @@ using Unity.Cinemachine;
 [System.Serializable]
 public class ParallaxLayer
 {
-    public List<Transform> objects = new List<Transform>();
+    [HideInInspector] public List<Transform> objects = new List<Transform>();
     [Tooltip("Parallax multiplier, 0 = no movement, 1 = full movement with camera")]
     public float parallaxFactor = 0.5f;
+    [Tooltip("Parent objects to their respective parentObject")]
+    [SerializeField] public GameObject parentObject;
 }
 public class ParallaxBackground : MonoBehaviour
 
@@ -23,10 +25,35 @@ public class ParallaxBackground : MonoBehaviour
     public ParallaxLayer objects = new ParallaxLayer { parallaxFactor = 0.6f };
     public ParallaxLayer foreground = new ParallaxLayer { parallaxFactor = 0.8f };
 
+
+
     [Header("Optional")]
     public bool verticalParallax = false;
 
-    void Start()
+#if UNITY_EDITOR
+    private void OnValidate()
+    {
+        cameraTransform = Camera.main.transform;
+        PopulateLayer(sky);
+        PopulateLayer(clouds);
+        PopulateLayer(background);
+        PopulateLayer(objects);
+        PopulateLayer(foreground);
+    }
+
+    private void PopulateLayer(ParallaxLayer layer)
+    {
+        if (layer.parentObject == null) return;
+
+        layer.objects.Clear();
+
+        foreach (Transform child in layer.parentObject.transform)
+        {
+            layer.objects.Add(child);
+        }
+    }
+#endif
+    private void Start()
     {
         if (cameraTransform == null)
         {
@@ -35,7 +62,7 @@ public class ParallaxBackground : MonoBehaviour
         previousCameraPosition = cameraTransform.position;
     }
 
-    void LateUpdate()
+    private void LateUpdate()
     {
         Vector3 deltaMovement = cameraTransform.position - previousCameraPosition;
 
@@ -48,7 +75,7 @@ public class ParallaxBackground : MonoBehaviour
         previousCameraPosition = cameraTransform.position;
     }
 
-    void ApplyParallax(ParallaxLayer layer, Vector3 deltaMovement)
+    private void ApplyParallax(ParallaxLayer layer, Vector3 deltaMovement)
     {
         if (layer.objects == null) return;
 
