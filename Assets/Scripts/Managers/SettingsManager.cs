@@ -59,8 +59,12 @@ public class SettingsManager : MonoBehaviour
     }
     public void SetResolution(Resolution resolution)
     {
-        Screen.SetResolution(resolution.width, resolution.height, true);
+        Screen.SetResolution(resolution.width,
+        resolution.height,
+        FullScreenMode.FullScreenWindow,
+        resolution.refreshRateRatio);
         _currentResolution = resolution;
+        Events.UIEvents.onResolutionChange.Publish();
         SaveSettings();
     }
     private void LoadSettings()

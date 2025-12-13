@@ -22,6 +22,7 @@ public class Events
         public static readonly GameEvent onGameOver = new GameEvent();
         public static readonly GameEvent<int> onVictory = new GameEvent<int>();
         public static readonly GameEvent onLevelsLoaded = new GameEvent();
+        public static readonly GameEvent onResolutionChange = new GameEvent();
     }
 
 }
