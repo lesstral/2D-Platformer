@@ -45,7 +45,7 @@ public class Player : MonoBehaviour, IControllable
         Events.PlayerEvents.onPlayerStateChanged.Publish(_playerState);
     }
 
-    private void Jump()
+    public void Jump()
     {
 
         if (IsGrounded())

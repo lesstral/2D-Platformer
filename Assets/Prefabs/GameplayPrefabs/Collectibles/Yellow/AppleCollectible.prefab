@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 2134886889664862549}
   - component: {fileID: 2185445003415019899}
   m_Layer: 7
-  m_Name: PearCollectible
+  m_Name: AppleCollectible
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -81,7 +81,7 @@ SpriteRenderer:
   m_SortingLayerID: 1407103395
   m_SortingLayer: 5
   m_SortingOrder: 0
-  m_Sprite: {fileID: 6422085674583116018, guid: 2aa5b300b56bd0849a26e5f549686973, type: 3}
+  m_Sprite: {fileID: -2199681193780744630, guid: 2aa5b300b56bd0849a26e5f549686973, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
