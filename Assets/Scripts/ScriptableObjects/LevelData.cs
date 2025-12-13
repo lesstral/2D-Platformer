@@ -11,4 +11,6 @@ public class LevelData : ScriptableObject
     [Header("Scene & Visuals")]
     public AssetReference scene;
     public Sprite thumbnail;
+    [Header("Default is Relaxed")]
+    public MusicMood musicMood = MusicMood.Relaxed;
 }

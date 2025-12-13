@@ -1,5 +1,6 @@
 public enum MusicMood
 {
     Relaxed,
-    Tense
+    Tense,
+    Exploration
 }
