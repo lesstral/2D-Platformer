@@ -11,6 +11,7 @@ public class Events
     public class InGameEvents
     {
         public static readonly GameEvent<int> onCollectiblePickedUp = new GameEvent<int>();
+        public static readonly GameEvent onFlagReached = new GameEvent();
     }
     public class UIEvents
     {

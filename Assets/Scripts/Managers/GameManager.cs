@@ -21,6 +21,13 @@ public class GameManager : MonoBehaviour
             Destroy(gameObject);
         }
     }
+#if UNITY_EDITOR
+    private void OnValidate()
+    {
+
+    }
+#endif
+
     private void Start()
     {
         SpawnPlayer();
@@ -30,6 +37,7 @@ public class GameManager : MonoBehaviour
         Events.PlayerEvents.onPlayerActionPerformed.Subscribe(HandlePlayerEvents);
         Events.UIEvents.onMenuOpened.Subscribe(Pause);
         Events.UIEvents.onMenuClosed.Subscribe(Resume);
+        Events.InGameEvents.onFlagReached.Subscribe(Victory);
 
     }
     private void OnDisable()
@@ -38,6 +46,7 @@ public class GameManager : MonoBehaviour
         Events.InGameEvents.onCollectiblePickedUp.Unsubscribe(UpdateScore);
         Events.UIEvents.onMenuOpened.Unsubscribe(Pause);
         Events.UIEvents.onMenuClosed.Unsubscribe(Resume);
+        Events.InGameEvents.onFlagReached.Unsubscribe(Victory);
     }
     private void HandlePlayerEvents(PlayerAction playerAction)
     {
