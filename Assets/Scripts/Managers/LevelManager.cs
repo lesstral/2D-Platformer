@@ -88,6 +88,7 @@ public class LevelManager : MonoBehaviour
     public void LoadMainMenu()
     {
         _currentLevel = null;
+        Time.timeScale = 1f;
         UnityEngine.SceneManagement.SceneManager.LoadScene("MainMenu");
     }
     public void ReloadCurrentScene()

@@ -63,6 +63,7 @@ public class SettingsManager : MonoBehaviour
         resolution.height,
         FullScreenMode.FullScreenWindow,
         resolution.refreshRateRatio);
+        QualitySettings.vSyncCount = 1;
         _currentResolution = resolution;
         Events.UIEvents.onResolutionChange.Publish();
         SaveSettings();
