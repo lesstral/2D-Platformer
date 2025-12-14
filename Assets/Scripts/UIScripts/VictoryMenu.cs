@@ -11,11 +11,7 @@ public class VictoryMenu : MonoBehaviour
     private void Awake()
     {
 
-        if (_nextLevelData != null)
-        {
-            SpawnCell(_nextLevelData);
-        }
-        _visualParent.SetActive(false);
+
     }
     private void Start()
     {
@@ -24,6 +20,11 @@ public class VictoryMenu : MonoBehaviour
             Debug.LogError("No LevelManager instance available");
         }
         _nextLevelData = LevelManager.Instance.GetNextLevelData();
+        if (_nextLevelData != null)
+        {
+            SpawnCell(_nextLevelData);
+        }
+
     }
     private void OnEnable()
     {
@@ -37,6 +38,7 @@ public class VictoryMenu : MonoBehaviour
     {
         _scoreField.SetText(score.ToString());
         _visualParent.SetActive(true);
+
     }
     private void SpawnCell(LevelData level)
     {

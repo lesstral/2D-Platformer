@@ -49,7 +49,6 @@ public class LevelManager : MonoBehaviour
     }
     private void OnLevelsLoaded(AsyncOperationHandle<IList<LevelData>> handle)
     {
-        Debug.Log("levels loading");
         if (handle.Status == AsyncOperationStatus.Succeeded)
         {
             _loadedLevels = new List<LevelData>(handle.Result);
