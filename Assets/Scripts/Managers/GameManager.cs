@@ -31,6 +31,7 @@ public class GameManager : MonoBehaviour
     private void OnEnable()
     {
         Events.PlayerEvents.onPlayerActionPerformed.Subscribe(HandlePlayerEvents);
+        Events.InGameEvents.onCollectiblePickedUp.Subscribe(UpdateScore);
         Events.UIEvents.onMenuOpened.Subscribe(Pause);
         Events.UIEvents.onMenuClosed.Subscribe(Resume);
         Events.InGameEvents.onFlagReached.Subscribe(Victory);

@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 7050608153330483384}
   - component: {fileID: 3523442805926514161}
   m_Layer: 3
-  m_Name: DirtShatteringBlock
+  m_Name: DirtShatteringBlock2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -83,7 +83,7 @@ SpriteRenderer:
   m_SortingLayerID: 1407103395
   m_SortingLayer: 5
   m_SortingOrder: 0
-  m_Sprite: {fileID: -1170603751906099542, guid: 6ab61ee80b736674d988fd1fa9fcc941, type: 3}
+  m_Sprite: {fileID: 1373520354, guid: 6ab61ee80b736674d988fd1fa9fcc941, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0

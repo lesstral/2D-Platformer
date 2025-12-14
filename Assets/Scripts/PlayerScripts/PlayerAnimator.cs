@@ -32,7 +32,6 @@ public class PlayerAnimator : MonoBehaviour
                 _spriteRenderer.flipX = true;
                 break;
             default:
-                Debug.Log("idle");
                 _animator.SetBool("isRunning", false);
                 break;
         }
