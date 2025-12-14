@@ -242,11 +242,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 94ea495d6a817eb4f8dbc34a2bd741a2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _jumpSound: {fileID: 8300000, guid: 0b99e7047efaf254d9c9b729fa05a080, type: 3}
-  _pickupSound: {fileID: 8300000, guid: f5bebbfad2fa6b74fbd43d43440a1aeb, type: 3}
-  _hitSound: {fileID: 8300000, guid: 58ec27f16a692cb40954692c9ca9f466, type: 3}
+  _jumpSound: {fileID: 8300000, guid: bcf80d3b961d78f4ba1945cf7d5b7bc4, type: 3}
+  _pickupSound: {fileID: 8300000, guid: efeb4e94bda509246a1f848ce597d29e, type: 3}
+  _hitSound: {fileID: 8300000, guid: bf41cbdd4997671439e1f30d0b7fbdcf, type: 3}
   _deathSound: {fileID: 8300000, guid: c9e95fa90d5b79043b4ff262d72a21f5, type: 3}
-  _spawnSound: {fileID: 8300000, guid: 23190ab65ee711c49a3897fed19a8720, type: 3}
+  _spawnSound: {fileID: 8300000, guid: c4cd569272aebdf488f4d979a5882424, type: 3}
+  _landSound: {fileID: 8300000, guid: 659fd4c0dd7e91242b3c6099381ff1fa, type: 3}
 --- !u!82 &5796078437330337158
 AudioSource:
   m_ObjectHideFlags: 0

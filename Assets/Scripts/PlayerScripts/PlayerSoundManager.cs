@@ -3,45 +3,72 @@ using UnityEngine;
 [RequireComponent(typeof(AudioSource))]
 public class PlayerSoundManager : MonoBehaviour
 {
-    private AudioSource _audioSource;
+    [SerializeField] private AudioSource _actionAudioSource;
+    [SerializeField] private AudioSource _stateAudioSource;
     [SerializeField] private AudioClip _jumpSound;
     [SerializeField] private AudioClip _pickupSound;
     [SerializeField] private AudioClip _hitSound;
     [SerializeField] private AudioClip _deathSound;
     [SerializeField] private AudioClip _spawnSound;
-    private void Awake()
+    [SerializeField] private AudioClip _landSound;
+    [SerializeField] private AudioClip _runningSound;
+    private void Start()
     {
-        _audioSource = GetComponent<AudioSource>();
+        _stateAudioSource.clip = _runningSound;
     }
     private void OnEnable()
     {
-        Events.PlayerEvents.onPlayerActionPerformed.Subscribe(HandleEvent);
+        Events.PlayerEvents.onPlayerActionPerformed.Subscribe(HandleActionEvent);
+        Events.PlayerEvents.onPlayerStateChanged.Subscribe(HandleStateEvent);
     }
     private void OnDisable()
     {
-        Events.PlayerEvents.onPlayerActionPerformed.Unsubscribe(HandleEvent);
+        Events.PlayerEvents.onPlayerActionPerformed.Unsubscribe(HandleActionEvent);
+        Events.PlayerEvents.onPlayerStateChanged.Unsubscribe(HandleStateEvent);
     }
-    private void HandleEvent(PlayerAction playerAction)
+    private void HandleActionEvent(PlayerAction playerAction)
     {
         switch (playerAction)
         {
             case PlayerAction.Jump:
-                _audioSource.PlayOneShot(_jumpSound);
+                _actionAudioSource.PlayOneShot(_jumpSound);
                 break;
             case PlayerAction.PickUp:
-                _audioSource.PlayOneShot(_pickupSound);
+                _actionAudioSource.PlayOneShot(_pickupSound);
                 break;
             case PlayerAction.Hit:
-                _audioSource.PlayOneShot(_hitSound);
+                _actionAudioSource.PlayOneShot(_hitSound);
                 break;
             case PlayerAction.Spawn:
-                _audioSource.PlayOneShot(_spawnSound);
+                _actionAudioSource.PlayOneShot(_spawnSound);
                 break;
             case PlayerAction.Death:
-                _audioSource.PlayOneShot(_deathSound);
+                _actionAudioSource.PlayOneShot(_deathSound);
+                break;
+            case PlayerAction.Land:
+                _actionAudioSource.PlayOneShot(_landSound);
                 break;
             default:
                 break;
         }
     }
+    private void HandleStateEvent(PlayerState playerState)
+    {
+        if (playerState == PlayerState.RunningRight
+        || playerState == PlayerState.RunningLeft)
+        {
+            if (!_stateAudioSource.isPlaying)
+            {
+                _stateAudioSource.Play();
+            }
+        }
+        else
+        {
+            if (_stateAudioSource.isPlaying)
+            {
+                _stateAudioSource.Stop();
+            }
+        }
+    }
+
 }

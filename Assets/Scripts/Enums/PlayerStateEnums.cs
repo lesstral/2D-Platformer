@@ -4,5 +4,6 @@ public enum PlayerState
 {
     RunningRight,
     RunningLeft,
-    Idle
+    Idle,
+    Airborne
 }

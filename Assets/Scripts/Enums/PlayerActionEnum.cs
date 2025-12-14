@@ -5,5 +5,6 @@ public enum PlayerAction
     PickUp,
     Hit,
     Death,
-    Spawn
+    Spawn,
+    Land
 }
