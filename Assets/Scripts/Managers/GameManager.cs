@@ -1,4 +1,4 @@
-using System;
+using System.Collections;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
@@ -6,6 +6,7 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance;
     [SerializeField] private GameObject _player;
     [SerializeField] private Transform _spawnPoint;
+    [SerializeField] private float _respawnDelay = 2;
     [SerializeField] private int _lives = 3;
     private int _score = 0;
     private void Awake()
@@ -21,12 +22,7 @@ public class GameManager : MonoBehaviour
             Destroy(gameObject);
         }
     }
-#if UNITY_EDITOR
-    private void OnValidate()
-    {
 
-    }
-#endif
 
     private void Start()
     {
@@ -56,7 +52,7 @@ public class GameManager : MonoBehaviour
                 _lives--;
                 if (!GameOver())
                 {
-                    SpawnPlayer();
+                    StartCoroutine(RespawnPlayerCoroutine());
 
                     Events.UIEvents.onLiveCounterUpdate.Publish(_lives);
                 }
@@ -83,7 +79,7 @@ public class GameManager : MonoBehaviour
     }
     private void SpawnPlayer()
     {
-
+        _player.gameObject.SetActive(true);
         _player.transform.position = _spawnPoint.position;
         Events.PlayerEvents.onPlayerActionPerformed.Publish(PlayerAction.Spawn);
     }
@@ -95,5 +91,13 @@ public class GameManager : MonoBehaviour
     {
         Time.timeScale = 1f;
     }
-
+    private IEnumerator RespawnPlayerCoroutine()
+    {
+        _player.transform.position = _spawnPoint.position;
+        _player.gameObject.SetActive(false);
+        Events.InGameEvents.onPlayerRespawnStarted.Publish();
+        yield return new WaitForSeconds(_respawnDelay);
+        Events.InGameEvents.onPlayerRespawnEnded.Publish();
+        SpawnPlayer();
+    }
 }

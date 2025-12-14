@@ -12,6 +12,8 @@ public class Events
     {
         public static readonly GameEvent<int> onCollectiblePickedUp = new GameEvent<int>();
         public static readonly GameEvent onFlagReached = new GameEvent();
+        public static readonly GameEvent onPlayerRespawnStarted = new GameEvent();
+        public static readonly GameEvent onPlayerRespawnEnded = new GameEvent();
     }
     public class UIEvents
     {
