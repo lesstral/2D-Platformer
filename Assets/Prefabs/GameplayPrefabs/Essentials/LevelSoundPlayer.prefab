@@ -47,7 +47,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::LevelSoundPlayer
   _audioSource: {fileID: 5403771252048334002}
   _respawnProcessClip: {fileID: 8300000, guid: 54824a1e8caf76e488e7fb1a2e05504b, type: 3}
-  _victoryClip: {fileID: 8300000, guid: 23190ab65ee711c49a3897fed19a8720, type: 3}
+  _victoryClip: {fileID: 8300000, guid: acdc20b510ca3af47aa98e93325004f1, type: 3}
+  _gameoverClip: {fileID: 8300000, guid: cf8ab88acfc65804baf5123b8fbba430, type: 3}
 --- !u!82 &5403771252048334002
 AudioSource:
   m_ObjectHideFlags: 0
