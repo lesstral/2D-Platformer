@@ -31,7 +31,7 @@ public class PauseMenu : SettingsMenu
         _buttonGrid.SetActive(false);
         _livesCounter.SetActive(false);
     }
-    private void ToggleMenu()
+    public void ToggleMenu()
     {
         if (isMenuOpen)
         {
@@ -42,7 +42,7 @@ public class PauseMenu : SettingsMenu
             OpenPauseMenu();
         }
     }
-    public void OpenPauseMenu()
+    private void OpenPauseMenu()
     {
         _pauseMenu.SetActive(true);
         _buttonGrid.SetActive(false);
@@ -50,13 +50,17 @@ public class PauseMenu : SettingsMenu
         isMenuOpen = true;
         Events.UIEvents.onMenuOpened.Publish();
     }
-    public void ClosePauseMenu()
+    private void ClosePauseMenu()
     {
         Events.UIEvents.onMenuClosed.Publish();
         isMenuOpen = false;
         _pauseMenu.SetActive(false);
         _buttonGrid.SetActive(true);
         _livesCounter.SetActive(true);
+    }
+    public void OnRestartButtonClicked()
+    {
+        LevelManager.Instance.ReloadCurrentScene();
     }
     public void BackToMainMenu()
     {

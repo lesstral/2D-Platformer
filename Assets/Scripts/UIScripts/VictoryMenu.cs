@@ -9,6 +9,7 @@ public class VictoryMenu : MonoBehaviour
     [SerializeField] GameObject _levelCellLockedPrefab;
     [SerializeField] GameObject _visualParent;
     private LevelData _nextLevelData;
+    private bool _nextLevelLocked;
     private void Awake()
     {
 
@@ -51,22 +52,26 @@ public class VictoryMenu : MonoBehaviour
             GameObject levelCell = Instantiate(_levelCellPrefab);
             levelCell.GetComponent<LevelCell>().Setup(level);
             levelRect = levelCell.GetComponent<RectTransform>();
+
         }
         else
         {
             GameObject levelCell = Instantiate(_levelCellLockedPrefab);
             levelCell.GetComponent<LevelCell>().Setup(level);
             levelRect = levelCell.GetComponent<RectTransform>();
+            _nextLevelLocked = true;
         }
 
         levelRect.SetParent(_nextLevelPlacePoint.transform, false);
     }
     public void OnMenuButtonClicked()
     {
+
         LevelManager.Instance.LoadMainMenu();
     }
     public void OnNextLevelButtonClicked()
     {
+        if (_nextLevelLocked) return;
         LevelManager.Instance.LoadLevel(_nextLevelData);
     }
 }

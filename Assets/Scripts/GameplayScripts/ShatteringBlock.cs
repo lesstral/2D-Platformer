@@ -9,6 +9,7 @@ public class ShatteringBlock : MonoBehaviour
     [SerializeField] float _distance;
     [SerializeField] Vector2 _boxSize;
     [SerializeField] float _breakDelay;
+    [SerializeField] float _restoreDelay = 10;
     private bool _triggered;
     private void OnCollisionEnter2D(Collision2D collision)
     {
@@ -43,7 +44,14 @@ public class ShatteringBlock : MonoBehaviour
         GetComponent<Collider2D>().enabled = false;
         GetComponent<SpriteRenderer>().enabled = false;
         _breakParticles.Play();
-        Destroy(gameObject, 3f);
+        StartCoroutine(RestoreBlockRoutine());
     }
+    IEnumerator RestoreBlockRoutine()
+    {
+        yield return new WaitForSeconds(_restoreDelay);
+        GetComponent<Collider2D>().enabled = true;
+        GetComponent<SpriteRenderer>().enabled = true;
+    }
+
 }
 
