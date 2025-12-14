@@ -10,8 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 8123035540553763396}
   - component: {fileID: 4046095424942283445}
-  - component: {fileID: 3825303782151970761}
+  - component: {fileID: 641949576841906144}
   - component: {fileID: 5294224875859097553}
+  - component: {fileID: 6104868973027424816}
   m_Layer: 3
   m_Name: GreenPlatformBig
   m_TagString: Untagged
@@ -92,7 +93,54 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!61 &3825303782151970761
+--- !u!50 &641949576841906144
+Rigidbody2D:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3267397592268018289}
+  m_BodyType: 1
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
+  m_GravityScale: 0
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 64
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_Interpolate: 1
+  m_SleepingMode: 1
+  m_CollisionDetection: 1
+  m_Constraints: 4
+--- !u!114 &5294224875859097553
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3267397592268018289}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 36236708fa208e7478a807a9383a29c4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _horizontalMovement: 0
+  _targetPositionA: 0
+  _targetPositionB: 0
+  _platformSpeed: 0
+  _pauseDuration: 2
+  _startsInRandomDirection: 0
+  _startsInDirectionA: 0
+  _platformRigidbody: {fileID: 641949576841906144}
+--- !u!61 &6104868973027424816
 BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -138,22 +186,3 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 0.64, y: 0.18}
   m_EdgeRadius: 0
---- !u!114 &5294224875859097553
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3267397592268018289}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 36236708fa208e7478a807a9383a29c4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _horizontalMovement: 0
-  _targetPositionA: 0
-  _targetPositionB: 0
-  _platformSpeed: 0
-  _pauseDuration: 2
-  _startsInRandomDirection: 0
-  _startsInDirectionA: 0

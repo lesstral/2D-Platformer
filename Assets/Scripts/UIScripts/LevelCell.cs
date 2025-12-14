@@ -8,6 +8,7 @@ public class LevelCell : MonoBehaviour
 {
     [SerializeField] private TMP_Text _levelNameTextField;
     [SerializeField] private Button _levelButton;
+    [SerializeField] private TMP_Text _requiredScore;
     public LevelData _levelDataSO;
     public bool Setup(LevelData levelData)
     {
@@ -25,6 +26,10 @@ public class LevelCell : MonoBehaviour
         if (_levelDataSO.thumbnail != null)
         {
             _levelButton.image.sprite = _levelDataSO.thumbnail;
+        }
+        if (_requiredScore != null)
+        {
+            _requiredScore.SetText(_levelDataSO.unlockScoreRequirement.ToString());
         }
 
         return true;

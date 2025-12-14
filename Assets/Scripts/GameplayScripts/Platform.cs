@@ -13,6 +13,10 @@ public class Platform : MonoBehaviour
     [SerializeField] private float _pauseDuration = 2f;
     [SerializeField] private bool _startsInRandomDirection;
     [SerializeField] private bool _startsInDirectionA;
+    [SerializeField] private Rigidbody2D _platformRigidbody;
+    private Player _player;
+    private Vector2 _lastPosition;
+    public Vector2 _velocity;
     private float _currentTargetPosition;
 
 
@@ -24,6 +28,35 @@ public class Platform : MonoBehaviour
         DetermineMovementDirection(_startsInRandomDirection, _startsInDirectionA);
         StartCoroutine(MovementLoop());
     }
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (!collision.gameObject.TryGetComponent<Player>(out _))
+            return;
+
+        foreach (ContactPoint2D contact in collision.contacts)
+        {
+            // check if on top
+            if (contact.normal.y < -0.5f)
+            {
+                _player = collision.gameObject.GetComponent<Player>();
+                break;
+            }
+        }
+    }
+    private void OnCollisionExit2D(Collision2D collision)
+    {
+        _player = null;
+    }
+    private void FixedUpdate()
+    {
+        _velocity = (_platformRigidbody.position - _lastPosition) / Time.fixedDeltaTime;
+        _lastPosition = _platformRigidbody.position;
+        if (_player)
+        {
+            _player.ApplyVelocity(_velocity);
+        }
+    }
+
     private IEnumerator MovementLoop()
     {
         while (true)
@@ -35,8 +68,12 @@ public class Platform : MonoBehaviour
                    _currentTargetPosition, transform.position.z);
             while (!HasReachedTargetPosition(targetPos))
             {
-                transform.position = Vector3.MoveTowards(transform.position,
-                targetPos, _platformSpeed * Time.deltaTime);
+                _platformRigidbody.MovePosition(
+                Vector3.MoveTowards(
+                _platformRigidbody.position,
+                targetPos,
+                _platformSpeed * Time.fixedDeltaTime
+            ));
                 yield return null;
             }
             transform.position = targetPos;

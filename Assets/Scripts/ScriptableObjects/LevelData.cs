@@ -13,4 +13,6 @@ public class LevelData : ScriptableObject
     public Sprite thumbnail;
     [Header("Default is Relaxed")]
     public MusicMood musicMood = MusicMood.Relaxed;
+    [Header("How much score should previous level have to unlock this one")]
+    public float unlockScoreRequirement = 0;
 }

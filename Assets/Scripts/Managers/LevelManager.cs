@@ -84,6 +84,10 @@ public class LevelManager : MonoBehaviour
     {
         return _loadedLevels;
     }
+    public LevelData GetLevelByID(int id)
+    {
+        return _loadedLevels.Find(level => level.ID == id);
+    }
     public void LoadMainMenu()
     {
         _currentLevel = null;

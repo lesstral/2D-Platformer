@@ -6,6 +6,7 @@ public class VictoryMenu : MonoBehaviour
     [SerializeField] TMP_Text _scoreField;
     [SerializeField] Transform _nextLevelPlacePoint;
     [SerializeField] GameObject _levelCellPrefab;
+    [SerializeField] GameObject _levelCellLockedPrefab;
     [SerializeField] GameObject _visualParent;
     private LevelData _nextLevelData;
     private void Awake()
@@ -20,10 +21,7 @@ public class VictoryMenu : MonoBehaviour
             Debug.LogError("No LevelManager instance available");
         }
         _nextLevelData = LevelManager.Instance.GetNextLevelData();
-        if (_nextLevelData != null)
-        {
-            SpawnCell(_nextLevelData);
-        }
+
 
     }
     private void OnEnable()
@@ -38,13 +36,29 @@ public class VictoryMenu : MonoBehaviour
     {
         _scoreField.SetText(score.ToString());
         _visualParent.SetActive(true);
+        if (_nextLevelData != null)
+        {
+            SpawnCell(_nextLevelData, score);
+        }
+
 
     }
-    private void SpawnCell(LevelData level)
+    private void SpawnCell(LevelData level, int score)
     {
-        GameObject levelCell = Instantiate(_levelCellPrefab);
-        levelCell.GetComponent<LevelCell>().Setup(level);
-        RectTransform levelRect = levelCell.GetComponent<RectTransform>();
+        RectTransform levelRect;
+        if (_nextLevelData.unlockScoreRequirement <= score)
+        {
+            GameObject levelCell = Instantiate(_levelCellPrefab);
+            levelCell.GetComponent<LevelCell>().Setup(level);
+            levelRect = levelCell.GetComponent<RectTransform>();
+        }
+        else
+        {
+            GameObject levelCell = Instantiate(_levelCellLockedPrefab);
+            levelCell.GetComponent<LevelCell>().Setup(level);
+            levelRect = levelCell.GetComponent<RectTransform>();
+        }
+
         levelRect.SetParent(_nextLevelPlacePoint.transform, false);
     }
     public void OnMenuButtonClicked()

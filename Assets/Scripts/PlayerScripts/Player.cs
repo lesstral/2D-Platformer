@@ -85,8 +85,12 @@ public class Player : MonoBehaviour, IControllable
 #if UNITY_EDITOR
         Debug.DrawRay(_groundCheck.position, transform.forward * 5f, Color.red);
 #endif
-        return Physics2D.OverlapBox(_groundCheck.position, new Vector2(0.15f, 0.12f), 0f, _groundLayer);
+        return Physics2D.OverlapBox(_groundCheck.position, new Vector2(0.14f, 0.12f), 0f, _groundLayer);
 
+    }
+    public void ApplyVelocity(Vector2 velocity)
+    {
+        _rigidbody2D.linearVelocity += new Vector2(velocity.x, 0);
     }
 
     public void Die()
