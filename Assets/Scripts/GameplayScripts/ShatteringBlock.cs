@@ -4,6 +4,7 @@ using System.Collections;
 public class ShatteringBlock : MonoBehaviour
 {
     [SerializeField] ParticleSystem _breakParticles;
+    [SerializeField] ParticleSystem _restoreParticles;
     [SerializeField] AudioSource audioSource;
     [SerializeField] AudioClip breakClip;
     [SerializeField] float _distance;
@@ -48,7 +49,14 @@ public class ShatteringBlock : MonoBehaviour
     }
     IEnumerator RestoreBlockRoutine()
     {
+
+        var main = _restoreParticles.main;
+        main.duration = _restoreDelay;
+        main.startLifetime = _restoreDelay;
+        _restoreParticles.Play();
         yield return new WaitForSeconds(_restoreDelay);
+        _restoreParticles.Stop();
+        _restoreParticles.Clear();
         _triggered = false;
         GetComponent<Collider2D>().enabled = true;
         GetComponent<SpriteRenderer>().enabled = true;
