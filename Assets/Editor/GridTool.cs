@@ -1,12 +1,7 @@
 using UnityEngine;
 using UnityEditor;
 using System.Collections.Generic;
-using UnityEditor.SearchService;
-using Unity.VisualScripting;
-using NUnit.Framework.Internal;
-using UnityEngine.U2D;
-using PlasticPipe.PlasticProtocol.Messages;
-using UnityEngine.UIElements;
+
 
 
 
@@ -26,6 +21,7 @@ public class GridTool : EditorWindow
 
     private Color gridColour = Color.red;
     private bool isDragging = false;
+    private bool isRowPrefabsGenerated = false;
 
     private float gridCellSize = 0.32f;
 
@@ -57,7 +53,10 @@ public class GridTool : EditorWindow
             typeof(GameObject),
             true
         );
-
+        if (GUILayout.Button("Clear Prefab"))
+        {
+            defaultPrefab = null;
+        }
         if (GUILayout.Button("Undo"))
         {
             UndoGrid();
@@ -70,9 +69,11 @@ public class GridTool : EditorWindow
                 startPos = Vector3.zero;
                 endPos = Vector3.zero;
                 rowPrefabs.Clear();
+                isDragging = false;
             }
         }
         GUILayout.Label("Prefabs by row:", EditorStyles.boldLabel);
+        if (isRowPrefabsGenerated == false) return;
         for (int i = 0; i < positionList.Count; i++)
         {
             rowPrefabs[i] = (GameObject)EditorGUILayout.ObjectField(
@@ -166,7 +167,6 @@ public class GridTool : EditorWindow
 
         Vector3 centerOffset = new Vector3(gridCellSize / 2f, gridCellSize / 2f, 0);
 
-        Debug.Log("generated");
         Vector3 min = Vector3.Min(corner1, corner2);
         Vector3 max = Vector3.Max(corner1, corner2);
 
@@ -210,7 +210,8 @@ public class GridTool : EditorWindow
 
             foreach (Vector3 pos in row)
             {
-                GameObject block = Instantiate(currentPrefab, pos, Quaternion.identity);
+                GameObject block = (GameObject)PrefabUtility.InstantiatePrefab(currentPrefab);
+                block.transform.position = pos;
                 block.transform.SetParent(rowParent.transform, true);
 
             }
@@ -232,6 +233,7 @@ public class GridTool : EditorWindow
                 rowPrefabs.Add(null);
             }
         }
+        isRowPrefabsGenerated = true;
     }
     private void UndoGrid()
     {
@@ -245,6 +247,7 @@ public class GridTool : EditorWindow
     }
     private void ClearLists()
     {
+        isRowPrefabsGenerated = false;
         positionList.Clear();
         rowPrefabs.Clear();
         lastCreatedGrid.Clear();

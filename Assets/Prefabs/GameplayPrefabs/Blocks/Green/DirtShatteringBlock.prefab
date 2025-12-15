@@ -157,7 +157,8 @@ MonoBehaviour:
   breakClip: {fileID: 8300000, guid: 631b7ed390a8dd34b917c040b2ca7928, type: 3}
   _distance: 0.3
   _boxSize: {x: 0.32, y: 0.32}
-  _breakDelay: 0.7
+  _breakDelay: 0.3
+  _restoreDelay: 10
 --- !u!82 &3523442805926514161
 AudioSource:
   m_ObjectHideFlags: 0

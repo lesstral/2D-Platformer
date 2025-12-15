@@ -49,6 +49,7 @@ public class ShatteringBlock : MonoBehaviour
     IEnumerator RestoreBlockRoutine()
     {
         yield return new WaitForSeconds(_restoreDelay);
+        _triggered = false;
         GetComponent<Collider2D>().enabled = true;
         GetComponent<SpriteRenderer>().enabled = true;
     }

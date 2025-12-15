@@ -112,7 +112,7 @@ public class PlatformTool : EditorWindow
     }
     private void PlacePlatform()
     {
-        GameObject newPlatformGO = Instantiate(platformPrefab);
+        GameObject newPlatformGO = (GameObject)PrefabUtility.InstantiatePrefab(platformPrefab);
         newPlatformGO.transform.position = (startPos + endPos) / 2;
         Platform newPlatform = newPlatformGO.GetComponent<Platform>();
         newPlatform.SetMovementType(horizontalMovement);
