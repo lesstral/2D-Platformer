@@ -33,6 +33,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 1222648086933704404}
   - {fileID: 4210536833356331684}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -153,6 +154,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ShatteringBlock
   _breakParticles: {fileID: 2956706923381919095}
+  _restoreParticles: {fileID: 257046354084657415}
   audioSource: {fileID: 3523442805926514161}
   breakClip: {fileID: 8300000, guid: 631b7ed390a8dd34b917c040b2ca7928, type: 3}
   _distance: 0.3
@@ -256,6 +258,73 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!1001 &1874250935295960183
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 4702595451343929795}
+    m_Modifications:
+    - target: {fileID: 789566715850451619, guid: 57ad1606483d8fc43b816a0030b7e3d2, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 789566715850451619, guid: 57ad1606483d8fc43b816a0030b7e3d2, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 789566715850451619, guid: 57ad1606483d8fc43b816a0030b7e3d2, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.1184681
+      objectReference: {fileID: 0}
+    - target: {fileID: 789566715850451619, guid: 57ad1606483d8fc43b816a0030b7e3d2, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: -0.000000039922657
+      objectReference: {fileID: 0}
+    - target: {fileID: 789566715850451619, guid: 57ad1606483d8fc43b816a0030b7e3d2, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0.000000026272597
+      objectReference: {fileID: 0}
+    - target: {fileID: 789566715850451619, guid: 57ad1606483d8fc43b816a0030b7e3d2, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.70710677
+      objectReference: {fileID: 0}
+    - target: {fileID: 789566715850451619, guid: 57ad1606483d8fc43b816a0030b7e3d2, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 789566715850451619, guid: 57ad1606483d8fc43b816a0030b7e3d2, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: 789566715850451619, guid: 57ad1606483d8fc43b816a0030b7e3d2, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 789566715850451619, guid: 57ad1606483d8fc43b816a0030b7e3d2, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 180
+      objectReference: {fileID: 0}
+    - target: {fileID: 8108786968238168878, guid: 57ad1606483d8fc43b816a0030b7e3d2, type: 3}
+      propertyPath: m_Name
+      value: DirtParticlesYellowRestore
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 57ad1606483d8fc43b816a0030b7e3d2, type: 3}
+--- !u!198 &257046354084657415 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 1842987129848995184, guid: 57ad1606483d8fc43b816a0030b7e3d2, type: 3}
+  m_PrefabInstance: {fileID: 1874250935295960183}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &1222648086933704404 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 789566715850451619, guid: 57ad1606483d8fc43b816a0030b7e3d2, type: 3}
+  m_PrefabInstance: {fileID: 1874250935295960183}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &3502619976615464967
 PrefabInstance:
   m_ObjectHideFlags: 0
