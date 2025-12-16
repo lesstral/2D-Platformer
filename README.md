@@ -1,5 +1,5 @@
 # 2D Platformer Foundation (Unity)
-➡️ [На русском](./README.ru.md) || [Download](link)
+➡️ [На русском](./README.ru.md) || [Download](https://github.com/lesstral/2D-Platformer/releases)
 
 ## Key Features
 
@@ -45,3 +45,4 @@ Automatically sets up platform's path (point A to point B), with configurable fi
 - [Nature Landscapes by CraftPix.net, CraftPix.net license](https://free-game-assets.itch.io/nature-landscapes-free-pixel-art)
 - [Parallax Backgrounds by Bongseng, CC0 license](https://bongseng.itch.io/parallax-forest-desert-sky-moon)
 - [RPG Essentials SFX by Leohpaz, Custom Free License (No Redistribution)](https://leohpaz.itch.io/rpg-essentials-sfx-free)
+
