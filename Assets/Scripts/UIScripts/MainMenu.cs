@@ -4,6 +4,7 @@ public class MainMenu : MonoBehaviour
 {
     MainMenu Instance;
     [SerializeField] private SettingsMenu _settingsMenu;
+    [SerializeField] private CreditsMenu _creditsMenu;
     [SerializeField] private GameObject _mainMenuFrame;
     [SerializeField] private GameObject _settingButtonFrame;
     [SerializeField] private LevelMenuManager _levelMenu;
@@ -24,6 +25,11 @@ public class MainMenu : MonoBehaviour
     {
         this.Close();
         _levelMenu.Open();
+    }
+    public void OnCreditsButtonClicked()
+    {
+        this.Close();
+        _creditsMenu.Open();
     }
     public void OnSettingsButtonClicked()
     {
