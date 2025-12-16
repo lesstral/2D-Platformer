@@ -1,5 +1,5 @@
 # Основва для 2D Platformer (Unity)
-➡️ [English](./README.ru.md) || [Скачать](link)
+➡️ [English](./README.ru.md) || [Скачать](https://github.com/lesstral/2D-Platformer/releases)
 
 ## Основные особенности
 
